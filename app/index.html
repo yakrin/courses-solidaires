@@ -64,6 +64,7 @@ h1,h2,h3{font-family:var(--titre);font-weight:700;line-height:1.15}
 .carte-fil .video b{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center}
 .carte-fil .video svg{width:26px;height:26px;fill:#fff}
 .carte-fil .texte{position:relative}
+.carte-fil .video,.bandeau-fiche .video,.carte-fil h2,.carte-fil p{text-shadow:0 1px 8px rgba(37,34,59,.65)}
 .carte-fil h2{font-size:30px;margin:10px 0 6px}
 .carte-fil p{opacity:.92;margin-bottom:16px}
 .carte-fil .entete-fil{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;padding:14px 16px;background:linear-gradient(rgba(37,34,59,.35),transparent)}
@@ -228,10 +229,10 @@ const AIDE = {
 };
 
 const DEPART = {
-  version: 2,
+  version: 3,
   compte: { statut: "verifie", prenom: "Démo" },
   commerces: [
-    { id: "lou-panie", nom: "Épicerie Lou Panié", quartier: "Noailles", distance: "450 m", resume: "pâtes, conserves, légumes à tarif solidaire", adresse: "Rue fictive des Récollettes, Marseille 1er", horaires: "Lun–Sam, 9h–19h", fond: "f2", x: 46, y: 46, depuis: "juin 2026",
+    { id: "lou-panie", nom: "Épicerie Lou Panié", quartier: "Noailles", distance: "450 m", resume: "pâtes, conserves, légumes à tarif solidaire", adresse: "Rue fictive des Récollettes, Marseille 1er", horaires: "Lun–Sam, 9h–19h", fond: "f2", photo: "noailles", x: 46, y: 46, depuis: "juin 2026",
       produits: [
         { id: "p1", nom: "Pâtes 1 kg", type: "solidaire", normal: 2.40, prix: 1.70, actif: true },
         { id: "p2", nom: "Conserves de légumes (lot de 4)", type: "solidaire", normal: 4.80, prix: 3.40, actif: true },
@@ -240,14 +241,14 @@ const DEPART = {
         { id: "p5", nom: "Panier de légumes de saison", type: "invendu", normal: 6.00, prix: 3.00, actif: true, info: "à retirer le jour même" },
         { id: "p6", nom: "Yaourts nature (lot de 8)", type: "invendu", normal: 3.60, prix: 1.80, actif: false, info: "date courte" }
       ] },
-    { id: "fournil", nom: "Le Fournil de la Belle de Mai", quartier: "Belle de Mai", distance: "900 m", resume: "pain de la veille, viennoiseries en invendus", adresse: "Boulevard fictif, Marseille 3e", horaires: "Mar–Dim, 7h–19h30", fond: "f3", x: 64, y: 22, depuis: "juillet 2026",
+    { id: "fournil", nom: "Le Fournil de la Belle de Mai", quartier: "Belle de Mai", distance: "900 m", resume: "pain de la veille, viennoiseries en invendus", adresse: "Boulevard fictif, Marseille 3e", horaires: "Mar–Dim, 7h–19h30", fond: "f3", photo: "pain", x: 64, y: 22, depuis: "juillet 2026",
       produits: [
         { id: "b1", nom: "Pain de la veille (lot de 2)", type: "invendu", normal: 3.00, prix: 1.50, actif: true, info: "après 17h" },
         { id: "b2", nom: "Viennoiseries du matin (lot de 4)", type: "invendu", normal: 5.20, prix: 2.60, actif: true, info: "après 15h" },
         { id: "b3", nom: "Baguette tradition", type: "solidaire", normal: 1.30, prix: 1.00, actif: true },
         { id: "b4", nom: "Farine T65 1 kg", type: "cout", normal: 1.90, prix: 1.40, actif: true }
       ] },
-    { id: "primeur", nom: "Primeur du Marché Capelette", quartier: "Capelette", distance: "1,4 km", resume: "fruits et légumes, invendus du jour", adresse: "Avenue fictive, Marseille 10e", horaires: "Lun–Sam, 8h–19h", fond: "f1", x: 70, y: 70, depuis: "septembre 2026",
+    { id: "primeur", nom: "Primeur du Marché Capelette", quartier: "Capelette", distance: "1,4 km", resume: "fruits et légumes, invendus du jour", adresse: "Avenue fictive, Marseille 10e", horaires: "Lun–Sam, 8h–19h", fond: "f1", photo: "etal", x: 70, y: 70, depuis: "septembre 2026",
       produits: [
         { id: "v1", nom: "Pommes 1 kg", type: "solidaire", normal: 2.80, prix: 2.00, actif: true },
         { id: "v2", nom: "Cagette fruits abîmés 3 kg", type: "invendu", normal: 6.00, prix: 2.50, actif: true, info: "à consommer vite" },
@@ -279,6 +280,7 @@ function marque(clair) { return `<a class="marque" href="#/"><svg viewBox="0 0 1
 function haut(titre, sous, retour) {
   return `<header class="haut">${retour ? `<a class="rond" href="${retour}" aria-label="Retour">${IC.retour}</a>` : ""}<h1>${titre}${sous ? `<small>${sous}</small>` : ""}</h1></header>`;
 }
+function photo(c, voile) { return c.photo ? ` style="background-image:linear-gradient(${voile}),url(photos/${c.photo}.webp);background-size:cover;background-position:center"` : ""; }
 function label() { return `<span class="label">${IC.coche}Commerce solidaire</span>`; }
 
 function dessinerNav(actif) {
@@ -292,7 +294,7 @@ function dessinerNav(actif) {
 function ecranFil() {
   const cartes = etat.commerces.map((c, i) => `
     <section class="carte-fil" aria-label="${esc(c.nom)}">
-      <div class="fond ${c.fond}"></div>
+      <div class="fond ${c.fond}"${photo(c, "rgba(37,34,59,.15) 30%, rgba(37,34,59,.85)")}></div>
       ${i === 0 ? `<div class="entete-fil">${marque(true)}<a class="rond" href="#/compte" aria-label="Mon compte" style="background:rgba(255,255,255,.2);box-shadow:none;color:#fff">${IC.compte}</a></div>` : ""}
       <div class="video"><b>${IC.lecture}</b>Vidéo de présentation du commerce</div>
       <div class="texte">${label()}<h2>${esc(c.nom)}</h2><p>${esc(c.quartier)} · à ${c.distance} · ${esc(c.resume)}</p><a class="btn blanc" href="#/commerce/${c.id}">Voir la fiche</a></div>
@@ -312,7 +314,7 @@ function ecranFil() {
 function ecranCommerce(id) {
   const c = commerce(id); if (!c) return ecranFil();
   vue.innerHTML = `
-    <div class="bandeau-fiche ${c.fond}"><a class="rond retour" href="#/" aria-label="Retour">${IC.retour}</a><span class="video">Vidéo de présentation (facultative)</span></div>
+    <div class="bandeau-fiche ${c.fond}"${photo(c, "rgba(37,34,59,.25), rgba(37,34,59,.05)")}><a class="rond retour" href="#/" aria-label="Retour">${IC.retour}</a><span class="video">Vidéo de présentation (facultative)</span></div>
     <div class="zone">
       <h2 style="font-size:28px">${esc(c.nom)}</h2>
       <p style="margin:8px 0 14px">${label()}</p>
@@ -416,7 +418,7 @@ function ecranCommande(ref) {
 function ecranCommandes() {
   vue.innerHTML = `${haut("Mes commandes")}
     <div class="zone">${etat.commandes.length ? etat.commandes.map(o => `
-      <a class="bloc fiche-liste" href="#/commande/${o.ref}" style="display:flex"><div class="vignette ${commerce(o.commerce).fond}"></div><div style="flex:1"><b>${esc(commerce(o.commerce).nom)}</b><div class="petit">${o.ref.replace("-", " — ")} · ${euros(o.total)} · ${esc(o.creneau)}</div><span class="statut ${o.statut}">${LIB[o.statut]}</span></div></a>`).join("")
+      <a class="bloc fiche-liste" href="#/commande/${o.ref}" style="display:flex"><div class="vignette ${commerce(o.commerce).fond}"${photo(commerce(o.commerce), "transparent, transparent")}></div><div style="flex:1"><b>${esc(commerce(o.commerce).nom)}</b><div class="petit">${o.ref.replace("-", " — ")} · ${euros(o.total)} · ${esc(o.creneau)}</div><span class="statut ${o.statut}">${LIB[o.statut]}</span></div></a>`).join("")
       : `<div class="vide"><p>Aucune commande pour l'instant.</p><p style="margin-top:14px"><a class="btn" href="#/">Découvrir les commerces</a></p></div>`}</div>`;
   dessinerNav("commandes");
 }
@@ -433,7 +435,7 @@ function ecranCarte() {
       ${etat.commerces.map(c => `<a class="epingle" href="#/commerce/${c.id}" style="left:${c.x}%;top:${c.y}%;text-decoration:none"><b>${esc(c.quartier)}</b><i></i></a>`).join("")}
       <span class="legende-plan">Positions fictives</span>
     </div>
-    <div class="zone">${etat.commerces.map(c => `<a class="bloc fiche-liste" href="#/commerce/${c.id}" style="display:flex"><div class="vignette ${c.fond}"></div><div><b>${esc(c.nom)}</b><div class="petit">${esc(c.quartier)} · à ${c.distance}</div></div></a>`).join("")}</div>`;
+    <div class="zone">${etat.commerces.map(c => `<a class="bloc fiche-liste" href="#/commerce/${c.id}" style="display:flex"><div class="vignette ${c.fond}"${photo(c, "transparent, transparent")}></div><div><b>${esc(c.nom)}</b><div class="petit">${esc(c.quartier)} · à ${c.distance}</div></div></a>`).join("")}</div>`;
   dessinerNav("carte");
 }
 
@@ -450,6 +452,7 @@ function ecranCompte() {
         <a class="btn clair plein" href="#/inscription">Rejouer l'inscription</a>
         <a class="btn plein" href="#/commercant/lou-panie">Espace commerçant (Lou Panié)</a>
       </div>
+      <p class="petit" style="margin-top:18px">Crédits photo : « Le Marché de Noailles » par Juan Lupión ; « L'étal des saveurs » par marsupilami92 ; « Baguette » par cocoparisienne (domaine public, CC0). Commerces fictifs : les photos illustrent, elles ne représentent pas ces commerces.</p>
     </div>`;
   dessinerNav("compte");
 }

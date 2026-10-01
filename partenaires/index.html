@@ -7,11 +7,11 @@
 <meta name="description" content="Commerces, entreprises et associations de Marseille : proposez quelques produits à prix réduit, écoulez vos invendus et faites reconnaître votre engagement solidaire. Sans commission.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%236541C1'/%3E%3Cpath d='M50 74C24 57 24 34 38 34c8 0 12 8 12 8s4-8 12-8c14 0 14 23-12 40z' fill='%23FF876D'/%3E%3C/svg%3E">
-<link rel="preload" href="../polices/charis-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="polices/charis-700.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-@font-face{font-family:"Charis SIL";font-weight:700;font-display:swap;src:url(../polices/charis-700.woff2) format("woff2")}
-@font-face{font-family:"Atkinson Hyperlegible";font-weight:400;font-display:swap;src:url(../polices/atkinson-400.woff2) format("woff2")}
-@font-face{font-family:"Atkinson Hyperlegible";font-weight:700;font-display:swap;src:url(../polices/atkinson-700.woff2) format("woff2")}
+@font-face{font-family:"Charis SIL";font-weight:700;font-display:swap;src:url(polices/charis-700.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:400;font-display:swap;src:url(polices/atkinson-400.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:700;font-display:swap;src:url(polices/atkinson-700.woff2) format("woff2")}
 :root{--encre:#25223b;--violet:#6541c1;--violet-fonce:#4f2fa3;--creme:#fff9f0;--lilas:#e6ddf8;--corail:#ff876d;--jaune:#ffdf67;--menthe:#bdebd9;--turquoise:#167a6a;--gris:#5e5871;--filet:#eadfd3;--titre:"Charis SIL",Charter,Georgia,serif;--texte:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:20px}
@@ -103,6 +103,15 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
 .gains span{display:block;font-size:16px;color:var(--gris);line-height:1.5}
 @media (max-width:900px){.gains{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.gains{grid-template-columns:1fr}}
+.photo-hero{position:relative;margin:0;border-radius:40px;overflow:hidden;aspect-ratio:4/5;background:var(--lilas)}
+.photo-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-hero figcaption{position:absolute;left:14px;right:14px;bottom:14px;display:flex;align-items:center;gap:12px;background:rgba(255,249,240,.94);border-radius:22px;padding:12px 16px;font-family:var(--titre);font-weight:700;font-size:18px;line-height:1.25}
+.photo-hero figcaption svg{width:62px;flex:none;height:auto}
+.bande-photos{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;margin-top:26px}
+.bande-photos img{width:100%;height:220px;object-fit:cover;border-radius:24px;display:block;background:var(--lilas)}
+@media (max-width:900px){.photo-hero{aspect-ratio:4/3;max-width:520px}.bande-photos{grid-template-columns:1fr 1fr}.bande-photos img:first-child{grid-column:1/-1}.bande-photos img{height:170px}}
+.haut-liens{display:flex;align-items:center;gap:18px}.lien-demo{font-weight:700;font-size:16px}
+@media (max-width:560px){.lien-demo{font-size:15px}}
 </style>
 </head>
 <body>
@@ -115,7 +124,8 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
     <svg viewBox="0 0 124 100" aria-hidden="true"><use href="#logo"/></svg>
     <span><small>les courses</small>solidaires</span>
   </a>
-  <a class="bouton petit" href="#participer">Devenir partenaire</a>
+  <span class="haut-liens"><a class="lien-demo" href="../app/">Voir la démo de l'appli</a>
+  <a class="bouton petit" href="#participer">Devenir partenaire</a></span>
 </header>
 
 <main id="contenu">
@@ -127,8 +137,9 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
     <a class="bouton" href="#participer">Devenir partenaire de l'essai</a>
     <p class="apres">Nous vous écrivons pour en parler. Sans engagement.</p>
   </div>
-  <div class="dessin">
-    <svg viewBox="0 0 124 100" role="img" aria-label="Une personne pousse un chariot de courses où l'on voit un cœur">
+  <figure class="photo-hero">
+    <img src="photos/noailles.webp" alt="Étal coloré d'un commerce du marché de Noailles, à Marseille" width="600" height="750" fetchpriority="high">
+    <figcaption><svg viewBox="0 0 124 100" aria-hidden="true">
       <g id="logo">
         <rect x="67" y="29" width="12" height="24" rx="3.5" fill="#BDEBD9"/>
         <circle cx="101" cy="39" r="8.5" fill="#FFDF67"/>
@@ -142,9 +153,8 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
         <path d="M27 60 16 86" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
         <path d="M27 60 38 87" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
       </g>
-    </svg>
-    <p>Aucune commission sur vos ventes.<br>Vous choisissez les produits.</p>
-  </div>
+    </svg><span>Aucune commission sur vos ventes.<br>Vous choisissez les produits.</span></figcaption>
+  </figure>
 </div>
 
 <section aria-labelledby="t-gains">
@@ -156,6 +166,7 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
     <div><b>Un engagement attesté</b><span>Une attestation « Commerce solidaire » datée, qui précise les engagements que vous tenez.</span></div>
     <div><b>Aucune commission</b><span>Nous ne prélevons rien sur vos ventes. Le client vous paie le prix que vous avez fixé.</span></div>
   </div>
+  <div class="bande-photos"><img src="photos/etal.webp" alt="Étal de fruits et légumes d'un commerce de quartier" loading="lazy" decoding="async" width="760" height="500"><img src="photos/tomates.webp" alt="Panier de tomates fraîches" loading="lazy" decoding="async" width="760" height="500"><img src="photos/charite.webp" alt="Une rue du quartier du Panier, à Marseille" loading="lazy" decoding="async" width="760" height="500"></div>
 </section>
 
 <section aria-labelledby="t-marche">
@@ -258,7 +269,7 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
 <footer>
   <details>
     <summary>Mentions légales</summary>
-    <p>Page éditée par le groupe 4 du Changemaker Project 2026, Rocket School Marseille. Projet étudiant, sans structure juridique à ce jour. Responsable de la publication : le chef de projet du groupe. Cette page est hébergée par GitHub Pages (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, États-Unis). Les informations du formulaire sont envoyées et conservées en France, chez OVH SAS, 2 rue Kellermann, 59100 Roubaix.</p>
+    <p>Page éditée par le groupe 4 du Changemaker Project 2026, Rocket School Marseille. Projet étudiant, sans structure juridique à ce jour. Responsable de la publication : le chef de projet du groupe. Cette page est hébergée par un service d'hébergement statique situé aux États-Unis (GitHub ou Vercel). Les informations du formulaire sont envoyées et conservées en France, chez OVH SAS, 2 rue Kellermann, 59100 Roubaix.</p>
   </details>
   <details>
     <summary>Vos données</summary>
@@ -267,8 +278,12 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
     <p>Cette page ne dépose aucun cookie, n'utilise aucun traceur et ne mesure pas son audience.</p>
   </details>
   <details>
+    <summary>Crédits photo</summary>
+    <p>Photographies sous licences libres, recadrées et compressées : « Le Marché de Noailles » par Juan Lupión, « L'étal des saveurs » par marsupilami92, « Panier de légumes » par zigazou76, « Marseille, la Vieille Charité » par Jeanne Menjoulet (licence CC BY 2.0) et « Panier de tomates » par remiabel1 (domaine public). Aucune photo ne représente une personne aidée par le service.</p>
+  </details>
+  <details>
     <summary>Une page sobre, par choix</summary>
-    <p>Aucun script, aucune photo, aucune vidéo, aucun service tiers : le dessin est tracé en quelques lignes et les polices sont hébergées avec la page. Elle se charge en quelques dizaines de kilo-octets.</p>
+    <p>Aucun script, aucune vidéo, aucun service tiers : les photos sont compressées et chargées au fil de la lecture, les polices sont hébergées avec la page. Elle pèse environ 0,3 Mo.</p>
   </details>
   <p class="fin">Les courses solidaires · Groupe 4 Marseille · Changemaker Project 2026, Rocket School × Change Conseil.</p>
 </footer>
