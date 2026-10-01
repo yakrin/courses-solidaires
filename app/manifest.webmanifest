@@ -1,0 +1,12 @@
+{
+  "name": "Les courses solidaires",
+  "short_name": "Courses solidaires",
+  "description": "Démo : des produits à prix solidaire chez des commerces de quartier, retirés avec une simple référence.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff9f0",
+  "theme_color": "#6541c1",
+  "icons": [{ "src": "icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

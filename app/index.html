@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les courses solidaires · démo de l'application</title>
+<meta name="description" content="Démonstration de l'application Les courses solidaires : des produits à prix solidaire chez des commerces de quartier, retirés avec une simple référence de commande.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#6541c1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Courses solidaires">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icone.svg">
+<link rel="preload" href="polices/charis-700.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Charis SIL";font-weight:700;font-display:swap;src:url(polices/charis-700.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:400;font-display:swap;src:url(polices/atkinson-400.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:700;font-display:swap;src:url(polices/atkinson-700.woff2) format("woff2")}
+:root{--encre:#25223b;--violet:#6541c1;--violet-fonce:#4f2fa3;--creme:#fff9f0;--lilas:#e6ddf8;--corail:#ff876d;--corail-texte:#b3412a;--jaune:#ffdf67;--menthe:#bdebd9;--turquoise:#167a6a;--gris:#5e5871;--filet:#eadfd3;--blanc:#fff;--titre:"Charis SIL",Charter,Georgia,serif;--texte:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--lilas);color:var(--encre);font:16px/1.5 var(--texte);-webkit-font-smoothing:antialiased;display:flex;justify-content:center;gap:56px;align-items:center}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+h1,h2,h3{font-family:var(--titre);font-weight:700;line-height:1.15}
+.cote{max-width:340px;display:none}
+.cote h1{font-size:34px;margin:10px 0 14px}
+.cote p{color:var(--gris);margin-bottom:12px}
+.cote .sur{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--violet)}
+.cote ol{margin:0 0 14px 20px;color:var(--gris)}
+.cote a{color:var(--violet);font-weight:700}
+@media (min-width:900px){.cote{display:block}.tel{height:min(840px,90vh);border-radius:38px;box-shadow:0 0 0 10px var(--encre),0 24px 60px rgba(37,34,59,.3)}}
+.tel{position:relative;width:100%;max-width:420px;height:100%;background:var(--creme);overflow:hidden;display:flex;flex-direction:column}
+.demo{background:var(--encre);color:#fff;font-size:12.5px;text-align:center;padding:6px 10px}
+.demo button{color:var(--jaune);font-weight:700;text-decoration:underline;font-size:12.5px}
+.vue{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch}
+.vue.sans-defil{overflow:hidden}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);background:var(--blanc);border-top:1px solid var(--filet);padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700;color:var(--gris);text-decoration:none;padding:4px 0}
+.nav a[aria-current=page]{color:var(--violet)}
+.nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.badge-nav{position:relative}
+.badge-nav i{position:absolute;top:-4px;right:-10px;background:var(--corail);color:var(--encre);font-style:normal;font-size:10.5px;border-radius:99px;padding:0 5px;line-height:16px}
+/* barre du haut */
+.haut{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--creme);border-bottom:1px solid var(--filet)}
+.haut h1{font-size:21px;flex:1}
+.haut small{display:block;font-family:var(--texte);font-weight:400;font-size:13px;color:var(--gris)}
+.rond{width:40px;height:40px;border-radius:50%;background:var(--blanc);box-shadow:inset 0 0 0 1.5px var(--filet);display:grid;place-items:center;flex:none}
+.rond svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.marque{display:flex;align-items:center;gap:8px;flex:1;text-decoration:none}
+.marque svg{width:44px}
+.marque span{font-family:var(--titre);font-weight:700;line-height:.95;font-size:18px;display:flex;flex-direction:column}
+.marque small{font-size:12.5px}
+/* fil vertical */
+.fil{height:100%;overflow-y:auto;scroll-snap-type:y mandatory}
+.carte-fil{height:100%;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:22px 20px 26px;color:#fff;overflow:hidden}
+.carte-fil .fond{position:absolute;inset:0}
+.carte-fil .video{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px;opacity:.85}
+.carte-fil .video b{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center}
+.carte-fil .video svg{width:26px;height:26px;fill:#fff}
+.carte-fil .texte{position:relative}
+.carte-fil h2{font-size:30px;margin:10px 0 6px}
+.carte-fil p{opacity:.92;margin-bottom:16px}
+.carte-fil .entete-fil{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;padding:14px 16px;background:linear-gradient(rgba(37,34,59,.35),transparent)}
+.carte-fil .entete-fil .marque span{color:#fff}
+.indice{position:absolute;right:16px;bottom:30px;font-size:12px;opacity:.8;writing-mode:vertical-rl}
+.label{display:inline-flex;align-items:center;gap:6px;background:var(--menthe);color:var(--encre);font-weight:700;font-size:12.5px;border-radius:99px;padding:3px 11px}
+.label svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:3}
+.pub{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.25);border-radius:6px;padding:2px 8px}
+/* boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--violet);color:#fff;font-weight:700;border-radius:999px;padding:13px 22px;text-decoration:none}
+.btn:hover{background:var(--violet-fonce)}
+.btn.blanc{background:#fff;color:var(--encre)}
+.btn.clair{background:var(--lilas);color:var(--violet-fonce)}
+.btn.plein{display:flex;width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.bas{position:sticky;bottom:0;padding:12px 16px;background:linear-gradient(transparent,var(--creme) 30%)}
+/* contenu */
+.zone{padding:18px 16px 24px}
+.titre-section{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);margin:22px 0 10px}
+.bloc{background:var(--blanc);border-radius:20px;box-shadow:inset 0 0 0 1.5px var(--filet);padding:14px 16px}
+.bloc+.bloc{margin-top:10px}
+.ligne-ic{display:flex;gap:10px;align-items:flex-start;padding:5px 0}
+.ligne-ic svg{width:19px;height:19px;flex:none;margin-top:2px;fill:none;stroke:var(--violet);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.engag li{list-style:none;display:flex;gap:10px;padding:6px 0}
+.engag li::before{content:"";flex:none;width:20px;height:20px;border-radius:50%;background:var(--menthe) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23167a6a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat;margin-top:2px}
+.bandeau-fiche{height:190px;position:relative;display:flex;align-items:flex-end;padding:16px}
+.bandeau-fiche .video{position:absolute;top:16px;right:16px;font-size:12px;color:#fff;opacity:.85}
+.retour{position:absolute;top:14px;left:14px}
+/* onglets et produits */
+.onglets{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--filet);background:var(--creme);position:sticky;top:69px;z-index:4}
+.onglets button{padding:12px 4px;font-size:14px;font-weight:700;color:var(--gris);border-bottom:3px solid transparent}
+.onglets button[aria-selected=true]{color:var(--violet);border-color:var(--violet)}
+.aide-onglet{font-size:13.5px;color:var(--gris);margin:12px 0}
+.produit{display:flex;align-items:center;gap:12px;background:var(--blanc);border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--filet);padding:12px 12px 12px 16px}
+.produit+.produit{margin-top:10px}
+.produit .nom{font-weight:700}
+.produit .info{font-size:13px;color:var(--gris)}
+.prix{display:flex;align-items:baseline;gap:8px;margin-top:2px}
+.prix s{color:var(--gris);font-size:13.5px}
+.prix b{color:var(--violet);font-size:17px}
+.prix em{font-style:normal;font-size:12px;font-weight:700;background:var(--jaune);border-radius:6px;padding:0 6px}
+.qte{display:flex;align-items:center;gap:8px;margin-left:auto}
+.qte button{width:34px;height:34px;border-radius:50%;background:var(--violet);color:#fff;font-size:20px;line-height:1;display:grid;place-items:center}
+.qte button.moins{background:var(--lilas);color:var(--violet-fonce)}
+.qte span{min-width:16px;text-align:center;font-weight:700}
+.barre-panier{display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--violet);color:#fff;font-weight:700;border-radius:999px;padding:13px 22px;text-decoration:none}
+.vide{text-align:center;color:var(--gris);padding:40px 20px}
+/* commande */
+.reference{background:var(--lilas);border-radius:24px;text-align:center;padding:22px 16px}
+.reference small{display:block;font-size:13px;color:var(--violet-fonce);font-weight:700}
+.reference b{display:block;font-family:var(--titre);font-size:52px;letter-spacing:.04em;margin:6px 0}
+.reference span{font-size:14px;color:var(--gris)}
+.statut{display:inline-block;font-size:12.5px;font-weight:700;border-radius:99px;padding:2px 10px;background:var(--jaune)}
+.statut.prete{background:var(--menthe)}
+.statut.retiree{background:var(--filet)}
+.ligne-total{display:flex;justify-content:space-between;align-items:baseline;padding:8px 2px}
+.ligne-total b{font-size:20px}
+.petit{font-size:13.5px;color:var(--gris)}
+.etapes-suivi{display:flex;gap:6px;margin:14px 0 4px}
+.etapes-suivi span{flex:1;height:6px;border-radius:9px;background:var(--filet)}
+.etapes-suivi span.ok{background:var(--violet)}
+/* carte */
+.plan{position:relative;height:300px;background:#f3ecdf;border-bottom:1px solid var(--filet);overflow:hidden}
+.plan svg.fond-plan{position:absolute;inset:0;width:100%;height:100%}
+.epingle{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center}
+.epingle b{background:var(--violet);color:#fff;font-size:12px;border-radius:99px;padding:3px 9px;white-space:nowrap;box-shadow:0 2px 6px rgba(37,34,59,.25)}
+.epingle i{width:2px;height:10px;background:var(--violet)}
+.epingle.moi b{background:var(--corail);color:var(--encre)}
+.legende-plan{position:absolute;left:10px;bottom:8px;font-size:11.5px;color:var(--gris);background:rgba(255,249,240,.9);border-radius:6px;padding:1px 6px}
+.fiche-liste{display:flex;gap:12px;align-items:center;text-decoration:none}
+.vignette{width:52px;height:52px;border-radius:14px;flex:none}
+/* formulaires */
+label.champ{display:block;font-size:14px;font-weight:700;margin-top:14px}
+.champ input,.champ select{display:block;width:100%;margin-top:6px;border:1.5px solid var(--filet);border-radius:14px;padding:11px 13px;background:var(--blanc)}
+.coche{display:flex;gap:10px;align-items:flex-start;font-size:15px;padding:8px 0}
+.coche input{width:20px;height:20px;margin-top:2px;accent-color:var(--violet)}
+.progression{display:flex;gap:6px;margin-bottom:16px}
+.progression span{flex:1;height:6px;border-radius:9px;background:var(--filet)}
+.progression span.ok{background:var(--violet)}
+.choix-profil{display:grid;gap:10px;margin-top:12px}
+.choix-profil button{text-align:left;background:var(--blanc);box-shadow:inset 0 0 0 1.5px var(--filet);border-radius:18px;padding:14px 16px}
+.choix-profil button[aria-pressed=true]{box-shadow:inset 0 0 0 2.5px var(--violet);background:var(--lilas)}
+.choix-profil b{display:block;font-family:var(--titre);font-size:18px}
+/* commerçant */
+.interrupteur{margin-left:auto;width:48px;height:28px;border-radius:99px;background:var(--filet);position:relative;flex:none}
+.interrupteur::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+.interrupteur[aria-checked=true]{background:var(--turquoise)}
+.interrupteur[aria-checked=true]::after{left:23px}
+.produit.inactif{opacity:.55}
+.pastille-nb{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:99px;background:var(--corail);font-size:12.5px;font-weight:700;margin-left:6px;padding:0 6px;color:var(--encre)}
+.attestation{border-radius:24px;padding:22px;background:var(--blanc);box-shadow:inset 0 0 0 2.5px var(--violet);text-align:center}
+.attestation h2{font-size:24px;margin:10px 0}
+.toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);background:var(--encre);color:#fff;border-radius:14px;padding:10px 16px;font-size:14px;max-width:88%;text-align:center;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.vu{opacity:1}
+.f1{background:linear-gradient(160deg,#6541c1,#4f2fa3 55%,#25223b)}
+.f2{background:linear-gradient(160deg,#167a6a,#0f5a4e 55%,#25223b)}
+.f3{background:linear-gradient(160deg,#c9573d,#a1432f 55%,#25223b)}
+.f4{background:linear-gradient(160deg,#4f2fa3,#25223b)}
+.f5{background:linear-gradient(160deg,#8a6d1c,#5e4a12 55%,#25223b)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 124 100">
+    <rect x="67" y="29" width="12" height="24" rx="3.5" fill="#BDEBD9"/>
+    <circle cx="101" cy="39" r="8.5" fill="#FFDF67"/>
+    <path d="M88 48C75.5 40 75.5 29 82.5 29 86 29 88 32.8 88 32.8S90 29 93.5 29C100.5 29 100.5 40 88 48Z" fill="#FF876D"/>
+    <path d="M62 51H116L107.5 72H70Z" fill="#FFF9F0" stroke="#25223B" stroke-width="5.5" stroke-linejoin="round"/>
+    <path d="M49 45H59L70.5 80H108" fill="none" stroke="#25223B" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="76" cy="90" r="6.5" fill="#25223B"/><circle cx="103" cy="90" r="6.5" fill="#25223B"/>
+    <circle cx="33" cy="17" r="10" fill="#6541C1"/>
+    <path d="M34 35 27 60" fill="none" stroke="#6541C1" stroke-width="14" stroke-linecap="round"/>
+    <path d="M33 41 52 45.5" fill="none" stroke="#6541C1" stroke-width="7.5" stroke-linecap="round"/>
+    <path d="M27 60 16 86" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
+    <path d="M27 60 38 87" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<aside class="cote">
+  <p class="sur">MVP · Jour 4 · démo</p>
+  <h1>L'application, à manipuler</h1>
+  <p>Une web app : elle s'ouvre dans le navigateur d'un téléphone et s'ajoute à l'écran d'accueil comme une application, sans passer par un store.</p>
+  <ol>
+    <li>Faites défiler le fil des commerces.</li>
+    <li>Ouvrez une fiche, puis le catalogue.</li>
+    <li>Commandez : une référence s'affiche.</li>
+    <li>Passez dans l'espace commerçant pour préparer la commande.</li>
+  </ol>
+  <p>Commerces, prix et commandes sont fictifs. Rien n'est envoyé : tout reste dans ce navigateur.</p>
+  <p><a href="../courses/">Page de présentation</a></p>
+</aside>
+
+<div class="tel">
+  <p class="demo">Démo de l'essai · commerces et prix fictifs · <button type="button" id="reinit">Remettre à zéro</button></p>
+  <main class="vue" id="vue" tabindex="-1"></main>
+  <nav class="nav" id="nav" aria-label="Navigation principale"></nav>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+"use strict";
+// Démo du MVP : données fictives, tout reste dans le navigateur (localStorage). Aucun envoi réseau.
+const IC = {
+  accueil: '<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+  carte: '<svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>',
+  commandes: '<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+  compte: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
+  retour: '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
+  lieu: '<svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  heure: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  sac: '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>',
+  boutique: '<svg viewBox="0 0 24 24"><path d="M4 9l1.5-5h13L20 9M4 9h16v11H4zM9 20v-6h6v6"/></svg>',
+  coche: '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  lecture: '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'
+};
+const TYPES = { invendu: "Invendus", cout: "Prix coûtant", solidaire: "Tarif solidaire" };
+const AIDE = {
+  invendu: "Des produits encore bons, que le commerce vend moins cher plutôt que de les jeter.",
+  cout: "Des produits vendus sans marge : vous payez ce qu'ils ont coûté au commerce.",
+  solidaire: "Des produits essentiels sur lesquels le commerce réduit sa marge. Le prix habituel est affiché pour comparer."
+};
+
+const DEPART = {
+  version: 2,
+  compte: { statut: "verifie", prenom: "Démo" },
+  commerces: [
+    { id: "lou-panie", nom: "Épicerie Lou Panié", quartier: "Noailles", distance: "450 m", resume: "pâtes, conserves, légumes à tarif solidaire", adresse: "Rue fictive des Récollettes, Marseille 1er", horaires: "Lun–Sam, 9h–19h", fond: "f2", x: 46, y: 46, depuis: "juin 2026",
+      produits: [
+        { id: "p1", nom: "Pâtes 1 kg", type: "solidaire", normal: 2.40, prix: 1.70, actif: true },
+        { id: "p2", nom: "Conserves de légumes (lot de 4)", type: "solidaire", normal: 4.80, prix: 3.40, actif: true },
+        { id: "p3", nom: "Riz long 1 kg", type: "cout", normal: 2.90, prix: 2.20, actif: true },
+        { id: "p4", nom: "Huile de tournesol 1 L", type: "cout", normal: 3.20, prix: 2.50, actif: true },
+        { id: "p5", nom: "Panier de légumes de saison", type: "invendu", normal: 6.00, prix: 3.00, actif: true, info: "à retirer le jour même" },
+        { id: "p6", nom: "Yaourts nature (lot de 8)", type: "invendu", normal: 3.60, prix: 1.80, actif: false, info: "date courte" }
+      ] },
+    { id: "fournil", nom: "Le Fournil de la Belle de Mai", quartier: "Belle de Mai", distance: "900 m", resume: "pain de la veille, viennoiseries en invendus", adresse: "Boulevard fictif, Marseille 3e", horaires: "Mar–Dim, 7h–19h30", fond: "f3", x: 64, y: 22, depuis: "juillet 2026",
+      produits: [
+        { id: "b1", nom: "Pain de la veille (lot de 2)", type: "invendu", normal: 3.00, prix: 1.50, actif: true, info: "après 17h" },
+        { id: "b2", nom: "Viennoiseries du matin (lot de 4)", type: "invendu", normal: 5.20, prix: 2.60, actif: true, info: "après 15h" },
+        { id: "b3", nom: "Baguette tradition", type: "solidaire", normal: 1.30, prix: 1.00, actif: true },
+        { id: "b4", nom: "Farine T65 1 kg", type: "cout", normal: 1.90, prix: 1.40, actif: true }
+      ] },
+    { id: "primeur", nom: "Primeur du Marché Capelette", quartier: "Capelette", distance: "1,4 km", resume: "fruits et légumes, invendus du jour", adresse: "Avenue fictive, Marseille 10e", horaires: "Lun–Sam, 8h–19h", fond: "f1", x: 70, y: 70, depuis: "septembre 2026",
+      produits: [
+        { id: "v1", nom: "Pommes 1 kg", type: "solidaire", normal: 2.80, prix: 2.00, actif: true },
+        { id: "v2", nom: "Cagette fruits abîmés 3 kg", type: "invendu", normal: 6.00, prix: 2.50, actif: true, info: "à consommer vite" },
+        { id: "v3", nom: "Pommes de terre 2,5 kg", type: "cout", normal: 3.50, prix: 2.70, actif: true },
+        { id: "v4", nom: "Carottes 1 kg", type: "solidaire", normal: 1.90, prix: 1.40, actif: true }
+      ] }
+  ],
+  commandes: [],
+  panier: {}
+};
+
+let etat;
+const CLE = "courses-solidaires-demo";
+function charger() {
+  try { const s = JSON.parse(localStorage.getItem(CLE)); if (s && s.version === DEPART.version) return s; } catch (e) {}
+  return JSON.parse(JSON.stringify(DEPART));
+}
+function sauver() { try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) {} }
+etat = charger();
+
+const vue = document.getElementById("vue"), nav = document.getElementById("nav"), toastEl = document.getElementById("toast");
+const euros = n => n.toFixed(2).replace(".", ",") + " €";
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const commerce = id => etat.commerces.find(c => c.id === id);
+let minuteur;
+function toast(t) { toastEl.textContent = t; toastEl.classList.add("vu"); clearTimeout(minuteur); minuteur = setTimeout(() => toastEl.classList.remove("vu"), 2600); }
+
+function marque(clair) { return `<a class="marque" href="#/"><svg viewBox="0 0 124 100" aria-hidden="true"><use href="#logo"/></svg><span${clair ? ' style="color:#fff"' : ""}><small>les courses</small>solidaires</span></a>`; }
+function haut(titre, sous, retour) {
+  return `<header class="haut">${retour ? `<a class="rond" href="${retour}" aria-label="Retour">${IC.retour}</a>` : ""}<h1>${titre}${sous ? `<small>${sous}</small>` : ""}</h1></header>`;
+}
+function label() { return `<span class="label">${IC.coche}Commerce solidaire</span>`; }
+
+function dessinerNav(actif) {
+  const enCours = etat.commandes.filter(c => c.statut !== "retiree").length;
+  const liens = [["#/", "Accueil", "accueil"], ["#/carte", "Carte", "carte"], ["#/commandes", "Commandes", "commandes"], ["#/compte", "Compte", "compte"]];
+  nav.innerHTML = liens.map(([h, t, k]) => `<a href="${h}"${actif === k ? ' aria-current="page"' : ""}><span class="badge-nav">${IC[k]}${k === "commandes" && enCours ? `<i>${enCours}</i>` : ""}</span>${t}</a>`).join("");
+  nav.hidden = actif === null;
+}
+
+/* ---------- Écrans ---------- */
+function ecranFil() {
+  const cartes = etat.commerces.map((c, i) => `
+    <section class="carte-fil" aria-label="${esc(c.nom)}">
+      <div class="fond ${c.fond}"></div>
+      ${i === 0 ? `<div class="entete-fil">${marque(true)}<a class="rond" href="#/compte" aria-label="Mon compte" style="background:rgba(255,255,255,.2);box-shadow:none;color:#fff">${IC.compte}</a></div>` : ""}
+      <div class="video"><b>${IC.lecture}</b>Vidéo de présentation du commerce</div>
+      <div class="texte">${label()}<h2>${esc(c.nom)}</h2><p>${esc(c.quartier)} · à ${c.distance} · ${esc(c.resume)}</p><a class="btn blanc" href="#/commerce/${c.id}">Voir la fiche</a></div>
+      ${i === 0 ? `<span class="indice">Faites défiler ↓</span>` : ""}
+    </section>`);
+  cartes.splice(2, 0, `
+    <section class="carte-fil" aria-label="Contenu sponsorisé">
+      <div class="fond f5"></div>
+      <div class="video"><b>${IC.lecture}</b>Vidéo sponsorisée</div>
+      <div class="texte"><span class="pub">Sponsorisé</span><h2>Une entreprise marseillaise soutient l'application</h2><p>Exemple de vidéo sponsorisée : c'est la publicité qui finance l'application, sans commission sur vos courses. Elle n'est jamais choisie selon votre situation.</p></div>
+    </section>`);
+  vue.classList.add("sans-defil");
+  vue.innerHTML = `<div class="fil">${cartes.join("")}</div>`;
+  dessinerNav("accueil");
+}
+
+function ecranCommerce(id) {
+  const c = commerce(id); if (!c) return ecranFil();
+  vue.innerHTML = `
+    <div class="bandeau-fiche ${c.fond}"><a class="rond retour" href="#/" aria-label="Retour">${IC.retour}</a><span class="video">Vidéo de présentation (facultative)</span></div>
+    <div class="zone">
+      <h2 style="font-size:28px">${esc(c.nom)}</h2>
+      <p style="margin:8px 0 14px">${label()}</p>
+      <div class="bloc">
+        <div class="ligne-ic">${IC.lieu}<span>${esc(c.adresse)}</span></div>
+        <div class="ligne-ic">${IC.heure}<span>${esc(c.horaires)}</span></div>
+        <div class="ligne-ic">${IC.sac}<span>Retrait au comptoir avec une simple référence, sans justificatif</span></div>
+      </div>
+      <p class="titre-section">Ses engagements solidaires</p>
+      <ul class="engag">
+        <li>Aucune commission prélevée sur vos commandes</li>
+        <li>Chaque prix réduit affiché à côté du prix habituel</li>
+        <li>Aucun nom affiché en boutique, aucun justificatif demandé au comptoir</li>
+      </ul>
+      <p class="petit" style="margin-top:10px">Commerce solidaire depuis ${c.depuis} · label interne de l'application, attribué après vérification.</p>
+    </div>
+    <div class="bas"><a class="btn plein" href="#/catalogue/${c.id}">Voir le catalogue</a></div>`;
+  dessinerNav("accueil");
+}
+
+let ongletActif = "solidaire";
+function ecranCatalogue(id) {
+  const c = commerce(id); if (!c) return ecranFil();
+  const panier = etat.panier[id] || {};
+  const liste = c.produits.filter(p => p.actif && p.type === ongletActif);
+  const nb = Object.values(panier).reduce((a, b) => a + b, 0);
+  const total = Object.entries(panier).reduce((t, [pid, q]) => { const p = c.produits.find(x => x.id === pid); return t + (p ? p.prix * q : 0); }, 0);
+  vue.innerHTML = `
+    ${haut("Catalogue", esc(c.nom), "#/commerce/" + id)}
+    <div class="onglets" role="tablist">${Object.entries(TYPES).map(([k, t]) => `<button role="tab" aria-selected="${k === ongletActif}" data-onglet="${k}">${t}</button>`).join("")}</div>
+    <div class="zone">
+      <p class="aide-onglet">${AIDE[ongletActif]}</p>
+      ${liste.length ? liste.map(p => {
+        const q = panier[p.id] || 0, remise = Math.round((1 - p.prix / p.normal) * 100);
+        return `<div class="produit"><div><div class="nom">${esc(p.nom)}</div>${p.info ? `<div class="info">${esc(p.info)}</div>` : ""}<div class="prix"><s>${euros(p.normal)}</s><b>${euros(p.prix)}</b><em>−${remise} %</em></div></div>
+          <div class="qte">${q ? `<button class="moins" data-moins="${p.id}" aria-label="Retirer ${esc(p.nom)}">−</button><span>${q}</span>` : ""}<button data-plus="${p.id}" aria-label="Ajouter ${esc(p.nom)}">+</button></div></div>`;
+      }).join("") : `<p class="vide">Aucun produit dans cette catégorie aujourd'hui.</p>`}
+    </div>
+    ${nb ? `<div class="bas"><a class="barre-panier" href="#/panier/${id}"><span>Mon panier · ${nb} article${nb > 1 ? "s" : ""}</span><span>${euros(total)}</span></a></div>` : ""}`;
+  vue.querySelectorAll("[data-onglet]").forEach(b => b.onclick = () => { ongletActif = b.dataset.onglet; ecranCatalogue(id); });
+  vue.querySelectorAll("[data-plus]").forEach(b => b.onclick = () => { etat.panier[id] = panier; panier[b.dataset.plus] = (panier[b.dataset.plus] || 0) + 1; sauver(); ecranCatalogue(id); });
+  vue.querySelectorAll("[data-moins]").forEach(b => b.onclick = () => { const k = b.dataset.moins; panier[k]--; if (!panier[k]) delete panier[k]; etat.panier[id] = panier; sauver(); ecranCatalogue(id); });
+  dessinerNav("accueil");
+}
+
+function lignesPanier(c, panier) {
+  return Object.entries(panier).map(([pid, q]) => { const p = c.produits.find(x => x.id === pid); return p ? { nom: p.nom, q, prix: p.prix, normal: p.normal } : null; }).filter(Boolean);
+}
+function ecranPanier(id) {
+  const c = commerce(id); if (!c) return ecranFil();
+  if (etat.compte.statut !== "verifie") { location.hash = "#/inscription"; return; }
+  const lignes = lignesPanier(c, etat.panier[id] || {});
+  if (!lignes.length) { location.hash = "#/catalogue/" + id; return; }
+  const total = lignes.reduce((t, l) => t + l.prix * l.q, 0), habituel = lignes.reduce((t, l) => t + l.normal * l.q, 0);
+  vue.innerHTML = `
+    ${haut("Mon panier", esc(c.nom), "#/catalogue/" + id)}
+    <div class="zone">
+      <div class="bloc">${lignes.map(l => `<div class="ligne-total"><span>${esc(l.nom)} <span class="petit">× ${l.q}</span></span><span>${euros(l.prix * l.q)}</span></div>`).join("")}</div>
+      <div class="ligne-total" style="margin-top:8px"><span>Total à régler au retrait</span><b>${euros(total)}</b></div>
+      <p class="petit">Au prix habituel : ${euros(habituel)}. Vous économisez ${euros(habituel - total)}.</p>
+      <label class="champ">Créneau de retrait
+        <select id="creneau"><option>Aujourd'hui, 17h–18h</option><option>Aujourd'hui, 18h–19h</option><option>Demain, 10h–11h</option><option>Demain, 17h–18h</option></select>
+      </label>
+      <div class="bloc" style="margin-top:16px;background:var(--lilas);box-shadow:none"><b>Paiement au retrait</b><p class="petit" style="color:var(--encre)">Vous payez directement le commerce, par carte ou en espèces. L'application ne prend aucune commission.</p></div>
+    </div>
+    <div class="bas"><button class="btn plein" id="confirmer">Confirmer la commande</button></div>`;
+  document.getElementById("confirmer").onclick = () => {
+    const lettres = "ABCDEFGHJKLMNPRSTUVWXYZ";
+    const ref = lettres[Math.floor(Math.random() * lettres.length)] + (1 + Math.floor(Math.random() * 9)) + "-" + String(100 + Math.floor(Math.random() * 900));
+    etat.commandes.unshift({ ref, commerce: id, lignes, total, creneau: document.getElementById("creneau").value, statut: "envoyee", date: new Date().toISOString() });
+    delete etat.panier[id]; sauver();
+    location.hash = "#/commande/" + ref;
+  };
+  dessinerNav("accueil");
+}
+
+const LIB = { envoyee: "Envoyée au commerce", prete: "Prête à retirer", retiree: "Retirée" };
+function ecranCommande(ref) {
+  const o = etat.commandes.find(x => x.ref === ref); if (!o) return ecranCommandes();
+  const c = commerce(o.commerce), n = { envoyee: 1, prete: 2, retiree: 3 }[o.statut];
+  vue.innerHTML = `
+    ${haut("Ma commande", "", "#/commandes")}
+    <div class="zone">
+      <h2 style="font-size:22px">${esc(c.nom)}</h2>
+      <p class="petit">${esc(c.adresse)} · ${esc(o.creneau)}</p>
+      <div class="reference" style="margin-top:14px"><small>Référence à donner au comptoir</small><b>${o.ref.replace("-", " — ")}</b><span>Aucun justificatif. Aucun nom affiché.</span></div>
+      <div class="etapes-suivi" aria-hidden="true">${[1, 2, 3].map(i => `<span class="${i <= n ? "ok" : ""}"></span>`).join("")}</div>
+      <p><span class="statut ${o.statut}">${LIB[o.statut]}</span></p>
+      <p class="titre-section">Contenu</p>
+      <div class="bloc">${o.lignes.map(l => `<div class="ligne-total"><span>${esc(l.nom)} <span class="petit">× ${l.q}</span></span><span>${euros(l.prix * l.q)}</span></div>`).join("")}</div>
+      <div class="ligne-total" style="margin-top:8px"><span>Total à régler sur place</span><b>${euros(o.total)}</b></div>
+      <p class="petit">Paiement directement au commerce, par carte ou en espèces.</p>
+      ${o.statut === "envoyee" ? `<p class="petit" style="margin-top:10px">Astuce démo : passez par Compte, puis « Espace commerçant », pour préparer cette commande.</p>` : ""}
+    </div>
+    ${o.statut !== "retiree" ? `<div class="bas"><button class="btn plein" id="retiree"${o.statut === "envoyee" ? " disabled" : ""}>J'ai récupéré ma commande</button></div>` : ""}`;
+  const b = document.getElementById("retiree");
+  if (b) b.onclick = () => { o.statut = "retiree"; sauver(); toast("Bonnes courses !"); ecranCommande(ref); };
+  dessinerNav("commandes");
+}
+
+function ecranCommandes() {
+  vue.innerHTML = `${haut("Mes commandes")}
+    <div class="zone">${etat.commandes.length ? etat.commandes.map(o => `
+      <a class="bloc fiche-liste" href="#/commande/${o.ref}" style="display:flex"><div class="vignette ${commerce(o.commerce).fond}"></div><div style="flex:1"><b>${esc(commerce(o.commerce).nom)}</b><div class="petit">${o.ref.replace("-", " — ")} · ${euros(o.total)} · ${esc(o.creneau)}</div><span class="statut ${o.statut}">${LIB[o.statut]}</span></div></a>`).join("")
+      : `<div class="vide"><p>Aucune commande pour l'instant.</p><p style="margin-top:14px"><a class="btn" href="#/">Découvrir les commerces</a></p></div>`}</div>`;
+  dessinerNav("commandes");
+}
+
+function ecranCarte() {
+  vue.innerHTML = `${haut("Carte des commerces", "Plan schématique de démonstration")}
+    <div class="plan">
+      <svg class="fond-plan" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 78 Q30 70 52 82 T100 76 V100 H0Z" fill="#cfe7f0"/>
+        <path d="M0 30 H100 M0 58 H100 M28 0 V100 M58 0 V100 M82 0 V100 M0 8 L100 92" stroke="#fff" stroke-width="2.2" fill="none"/>
+        <path d="M12 18 h10 v8 h-10z M66 40 h10 v10 h-10z M36 64 h12 v8 h-12z" fill="#e8dcc8"/>
+      </svg>
+      <div class="epingle moi" style="left:40%;top:56%"><b>Vous</b><i></i></div>
+      ${etat.commerces.map(c => `<a class="epingle" href="#/commerce/${c.id}" style="left:${c.x}%;top:${c.y}%;text-decoration:none"><b>${esc(c.quartier)}</b><i></i></a>`).join("")}
+      <span class="legende-plan">Positions fictives</span>
+    </div>
+    <div class="zone">${etat.commerces.map(c => `<a class="bloc fiche-liste" href="#/commerce/${c.id}" style="display:flex"><div class="vignette ${c.fond}"></div><div><b>${esc(c.nom)}</b><div class="petit">${esc(c.quartier)} · à ${c.distance}</div></div></a>`).join("")}</div>`;
+  dessinerNav("carte");
+}
+
+function ecranCompte() {
+  const v = etat.compte.statut === "verifie";
+  vue.innerHTML = `${haut("Mon compte")}
+    <div class="zone">
+      <div class="bloc"><b>${v ? "Compte vérifié" : etat.compte.statut === "examen" ? "Dossier en cours d'examen" : "Compte à créer"}</b>
+        <p class="petit">${v ? "Vous avez accès aux offres des commerces solidaires." : "Notre équipe examine les dossiers complets sous 48 heures (objectif à confirmer)."}</p></div>
+      <p class="titre-section">Ce que nous gardons de vous</p>
+      <ul class="engag"><li>Vos justificatifs ne sont vus que par notre équipe, jamais par les commerces.</li><li>Rien de votre situation n'apparaît sur votre profil.</li><li>Elle ne sert jamais à choisir les publicités que vous voyez.</li></ul>
+      <p class="titre-section">Démo</p>
+      <div style="display:grid;gap:10px">
+        <a class="btn clair plein" href="#/inscription">Rejouer l'inscription</a>
+        <a class="btn plein" href="#/commercant/lou-panie">Espace commerçant (Lou Panié)</a>
+      </div>
+    </div>`;
+  dessinerNav("compte");
+}
+
+let insc = { etape: 1, profil: "beneficiaire" };
+function ecranInscription() {
+  const e = insc.etape;
+  const barre = `<div class="progression">${[1, 2, 3, 4].map(i => `<span class="${i <= e ? "ok" : ""}"></span>`).join("")}</div>`;
+  let corps = "";
+  if (e === 1) corps = `<h2 style="font-size:24px">Créer mon compte</h2><p class="petit">Étape 1 sur 4 · votre profil</p>
+    <div class="choix-profil"><button data-profil="beneficiaire" aria-pressed="${insc.profil === "beneficiaire"}"><b>Je fais mes courses</b><span class="petit">Accéder aux prix solidaires</span></button>
+    <button data-profil="commercant" aria-pressed="${insc.profil === "commercant"}"><b>Je tiens un commerce</b><span class="petit">Proposer des offres solidaires</span></button></div>
+    <label class="champ">Adresse e-mail<input type="email" value="demo@exemple.fr" autocomplete="off"></label>
+    <label class="champ">Mot de passe<input type="password" value="demo-demo" autocomplete="off"></label>`;
+  if (e === 2) corps = `<h2 style="font-size:24px">Vérifier ma situation</h2><p class="petit">Étape 2 sur 4 · les pièces dépendent du profil. Liste provisoire, à fixer par l'équipe.</p>
+    <div class="bloc" style="margin-top:14px">${(insc.profil === "beneficiaire" ? ["Une pièce d'identité", "Un justificatif de revenus récent (fiche de paie)", "Un justificatif de domicile"] : ["Un extrait Kbis ou un numéro SIRET", "Une pièce d'identité du gérant"]).map(x => `<label class="coche"><input type="checkbox" checked> ${x}</label>`).join("")}</div>
+    <p class="petit" style="margin-top:12px">Dans cette démo, aucun fichier n'est envoyé. Dans le service, seule notre équipe verrait ces pièces.</p>`;
+  if (e === 3) corps = `<h2 style="font-size:24px">Dossier envoyé</h2><p class="petit">Étape 3 sur 4 · examen par notre équipe</p>
+    <div class="reference" style="margin-top:14px"><small>Délai visé</small><b style="font-size:40px">48 h</b><span>Vous recevrez une confirmation, une demande de complément, ou une explication en cas de refus.</span></div>`;
+  if (e === 4) corps = `<h2 style="font-size:24px">Compte activé</h2><p class="petit">Étape 4 sur 4</p>
+    <div class="bloc" style="margin-top:14px;background:var(--menthe);box-shadow:none"><b>${insc.profil === "beneficiaire" ? "Vous avez accès aux offres solidaires." : "Vous pouvez configurer votre catalogue."}</b><p class="petit" style="color:var(--encre)">Dans la démo, l'examen est validé tout de suite.</p></div>`;
+  vue.innerHTML = `${haut("Inscription", "", "#/compte")}<div class="zone">${barre}${corps}</div>
+    <div class="bas"><button class="btn plein" id="suivant">${e === 2 ? "Envoyer mon dossier" : e === 3 ? "Simuler la validation" : e === 4 ? (insc.profil === "beneficiaire" ? "Découvrir les commerces" : "Ouvrir mon espace") : "Continuer"}</button></div>`;
+  vue.querySelectorAll("[data-profil]").forEach(b => b.onclick = () => { insc.profil = b.dataset.profil; ecranInscription(); });
+  document.getElementById("suivant").onclick = () => {
+    if (e < 4) { insc.etape++; if (insc.etape === 3) { etat.compte.statut = "examen"; sauver(); } ecranInscription(); vue.scrollTop = 0; return; }
+    etat.compte.statut = "verifie"; sauver(); insc = { etape: 1, profil: insc.profil };
+    location.hash = insc.profil === "beneficiaire" ? "#/" : "#/commercant/lou-panie";
+  };
+  dessinerNav(null);
+}
+
+function ecranCommercant(id) {
+  const c = commerce(id); if (!c) return ecranFil();
+  const aPreparer = etat.commandes.filter(o => o.commerce === id && o.statut === "envoyee");
+  const pretes = etat.commandes.filter(o => o.commerce === id && o.statut === "prete");
+  vue.innerHTML = `
+    <header class="haut"><a class="rond" href="#/compte" aria-label="Retour">${IC.retour}</a><h1>${esc(c.nom)}<small>Espace commerçant</small></h1>${label()}</header>
+    <div class="zone">
+      <p class="titre-section" style="margin-top:4px">Commandes à préparer <span class="pastille-nb">${aPreparer.length}</span></p>
+      ${aPreparer.length ? aPreparer.map(o => `<div class="bloc"><b style="font-family:var(--titre);font-size:20px">${o.ref.replace("-", " — ")}</b><p class="petit">${o.lignes.map(l => esc(l.nom) + " × " + l.q).join(" · ")} · ${esc(o.creneau)}</p><button class="btn clair" style="margin-top:10px;padding:9px 16px" data-prete="${o.ref}">Marquer comme prête</button></div>`).join("")
+        : `<p class="petit">Aucune commande en attente. Passez une commande depuis l'accueil pour la voir arriver ici.</p>`}
+      ${pretes.length ? `<p class="titre-section">Prêtes, en attente de retrait</p>${pretes.map(o => `<div class="bloc"><b>${o.ref.replace("-", " — ")}</b> <span class="statut prete">Prête</span><p class="petit">Le client donne cette référence au comptoir et paie ${euros(o.total)}.</p></div>`).join("")}` : ""}
+      <p class="titre-section">Vos offres solidaires</p>
+      ${c.produits.map(p => `<div class="produit ${p.actif ? "" : "inactif"}"><div><div class="nom">${esc(p.nom)}</div><div class="info">${TYPES[p.type]} · ${euros(p.normal)} habituel → <b style="color:var(--violet)">${euros(p.prix)}</b></div></div><button class="interrupteur" role="switch" aria-checked="${p.actif}" aria-label="Proposer ${esc(p.nom)}" data-bascule="${p.id}"></button></div>`).join("")}
+      <details class="bloc" style="margin-top:12px"><summary style="font-weight:700;cursor:pointer">+ Ajouter une offre</summary>
+        <label class="champ">Produit<input id="n-nom" placeholder="Ex. : lentilles 500 g"></label>
+        <label class="champ">Catégorie<select id="n-type">${Object.entries(TYPES).map(([k, t]) => `<option value="${k}">${t}</option>`).join("")}</select></label>
+        <label class="champ">Prix habituel (€)<input id="n-normal" inputmode="decimal" placeholder="2,50"></label>
+        <label class="champ">Prix proposé (€)<input id="n-prix" inputmode="decimal" placeholder="1,80"></label>
+        <button class="btn" style="margin-top:14px" id="ajouter">Publier l'offre</button>
+      </details>
+      <p class="titre-section">Engagement « Commerce solidaire »</p>
+      <a class="btn clair plein" href="#/attestation/${id}">Voir mon attestation</a>
+      <p class="petit" style="text-align:center;margin-top:14px">Aucune commission sur vos ventes.</p>
+    </div>`;
+  vue.querySelectorAll("[data-prete]").forEach(b => b.onclick = () => { etat.commandes.find(o => o.ref === b.dataset.prete).statut = "prete"; sauver(); toast("Commande prête : le client est prévenu"); ecranCommercant(id); });
+  vue.querySelectorAll("[data-bascule]").forEach(b => b.onclick = () => { const p = c.produits.find(x => x.id === b.dataset.bascule); p.actif = !p.actif; sauver(); ecranCommercant(id); });
+  document.getElementById("ajouter").onclick = () => {
+    const nom = document.getElementById("n-nom").value.trim(), normal = parseFloat(document.getElementById("n-normal").value.replace(",", ".")), prix = parseFloat(document.getElementById("n-prix").value.replace(",", "."));
+    if (!nom || !(normal > 0) || !(prix > 0)) return toast("Indiquez le produit et les deux prix.");
+    if (prix >= normal) return toast("Le prix proposé doit être plus bas que le prix habituel.");
+    c.produits.push({ id: "n" + Date.now(), nom, type: document.getElementById("n-type").value, normal, prix, actif: true }); sauver(); toast("Offre publiée"); ecranCommercant(id);
+  };
+  dessinerNav(null);
+}
+
+function ecranAttestation(id) {
+  const c = commerce(id); if (!c) return ecranFil();
+  vue.innerHTML = `${haut("Mon attestation", "", "#/commercant/" + id)}
+    <div class="zone"><div class="attestation">
+      <svg viewBox="0 0 124 100" width="90" aria-hidden="true"><use href="#logo"/></svg>
+      <p class="petit">Attestation d'engagement · label interne</p>
+      <h2>${esc(c.nom)}</h2><p>participe au programme <b>Commerce solidaire</b> depuis ${c.depuis}.</p>
+      <ul class="engag" style="text-align:left;margin-top:14px"><li>Des prix justifiables, comparés à un prix habituel</li><li>Des informations produit fiables</li><li>Les commandes respectées</li><li>La confidentialité des clients</li></ul>
+      <p class="petit" style="margin-top:12px">Attestation interne de l'application, ce n'est pas une certification indépendante. Suspendue en cas de manquement.</p>
+    </div></div>`;
+  dessinerNav(null);
+}
+
+/* ---------- Routeur ---------- */
+function router() {
+  const [, page, arg] = (location.hash || "#/").split("/");
+  vue.classList.remove("sans-defil");
+  toastEl.classList.remove("vu");
+  vue.scrollTop = 0;
+  ({ "": ecranFil, commerce: ecranCommerce, catalogue: ecranCatalogue, panier: ecranPanier, commande: ecranCommande, commandes: ecranCommandes, carte: ecranCarte, compte: ecranCompte, inscription: ecranInscription, commercant: ecranCommercant, attestation: ecranAttestation }[page] || ecranFil)(arg);
+}
+window.addEventListener("hashchange", router);
+document.getElementById("reinit").onclick = () => { etat = JSON.parse(JSON.stringify(DEPART)); sauver(); insc = { etape: 1, profil: "beneficiaire" }; location.hash = "#/"; router(); toast("Démo remise à zéro"); };
+router();
+</script>
+</body>
+</html>
