@@ -101,6 +101,8 @@ h1,h2,h3{font-family:var(--titre);font-weight:700;line-height:1.15}
 .produit{display:flex;align-items:center;gap:12px;background:var(--blanc);border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--filet);padding:12px 12px 12px 16px}
 .produit+.produit{margin-top:10px}
 .produit .nom{font-weight:700}
+.produit .vig{width:58px;height:58px;border-radius:14px;object-fit:cover;flex:none;background:var(--lilas)}
+.produit .vig.vide{display:grid;place-items:center;color:var(--violet);font-family:var(--titre);font-weight:700;font-size:22px}
 .produit .info{font-size:13px;color:var(--gris)}
 .prix{display:flex;align-items:baseline;gap:8px;margin-top:2px}
 .prix s{color:var(--gris);font-size:13.5px}
@@ -229,7 +231,7 @@ const AIDE = {
 };
 
 const DEPART = {
-  version: 3,
+  version: 4,
   compte: { statut: "verifie", prenom: "Démo" },
   commerces: [
     { id: "lou-panie", nom: "Épicerie Lou Panié", quartier: "Noailles", distance: "450 m", resume: "pâtes, conserves, légumes à tarif solidaire", adresse: "Rue fictive des Récollettes, Marseille 1er", horaires: "Lun–Sam, 9h–19h", fond: "f2", photo: "noailles", x: 46, y: 46, depuis: "juin 2026",
@@ -281,6 +283,7 @@ function haut(titre, sous, retour) {
   return `<header class="haut">${retour ? `<a class="rond" href="${retour}" aria-label="Retour">${IC.retour}</a>` : ""}<h1>${titre}${sous ? `<small>${sous}</small>` : ""}</h1></header>`;
 }
 function photo(c, voile) { return c.photo ? ` style="background-image:linear-gradient(${voile}),url(photos/${c.photo}.webp);background-size:cover;background-position:center"` : ""; }
+function vignette(p) { return /^[pbv][0-9]$/.test(p.id) ? `<img class="vig" src="photos/produits/${p.id}.webp" alt="" loading="lazy" width="58" height="58">` : `<span class="vig vide" aria-hidden="true">${esc(p.nom[0])}</span>`; }
 function label() { return `<span class="label">${IC.coche}Commerce solidaire</span>`; }
 
 function dessinerNav(actif) {
@@ -349,7 +352,7 @@ function ecranCatalogue(id) {
       <p class="aide-onglet">${AIDE[ongletActif]}</p>
       ${liste.length ? liste.map(p => {
         const q = panier[p.id] || 0, remise = Math.round((1 - p.prix / p.normal) * 100);
-        return `<div class="produit"><div><div class="nom">${esc(p.nom)}</div>${p.info ? `<div class="info">${esc(p.info)}</div>` : ""}<div class="prix"><s>${euros(p.normal)}</s><b>${euros(p.prix)}</b><em>−${remise} %</em></div></div>
+        return `<div class="produit">${vignette(p)}<div><div class="nom">${esc(p.nom)}</div>${p.info ? `<div class="info">${esc(p.info)}</div>` : ""}<div class="prix"><s>${euros(p.normal)}</s><b>${euros(p.prix)}</b><em>−${remise} %</em></div></div>
           <div class="qte">${q ? `<button class="moins" data-moins="${p.id}" aria-label="Retirer ${esc(p.nom)}">−</button><span>${q}</span>` : ""}<button data-plus="${p.id}" aria-label="Ajouter ${esc(p.nom)}">+</button></div></div>`;
       }).join("") : `<p class="vide">Aucun produit dans cette catégorie aujourd'hui.</p>`}
     </div>
@@ -453,6 +456,7 @@ function ecranCompte() {
         <a class="btn plein" href="#/commercant/lou-panie">Espace commerçant (Lou Panié)</a>
       </div>
       <p class="petit" style="margin-top:18px">Crédits photo : « Le Marché de Noailles » par Juan Lupión ; « L'étal des saveurs » par marsupilami92 ; « Baguette » par cocoparisienne (domaine public, CC0). Commerces fictifs : les photos illustrent, elles ne représentent pas ces commerces.</p>
+      <details class="petit" style="margin-top:8px"><summary>Crédits des photos de produits (Wikimedia Commons)</summary><p style="margin-top:6px">Barilla penne 1, Mx. Granger (CC0) ; Tinned tomatoes, auteur inconnu (CC0) ; Thai jasmine rice uncooked periodic, Seb35 (CC BY-SA 3.0) ; Sunflower oil bottles in Dnipro, Alex Blokha (CC BY-SA 4.0) ; Fruits and Vegetables in Boquete, Panama, FranHogan (CC BY-SA 4.0) ; Yogurt vainilla soja, Urci dream (CC BY-SA 4.0) ; Fresh made bread 05, FranHogan (CC BY-SA 4.0) ; Boulangerie Bardoulet (Contrevoz) - croissants et pains au chocolat, Benoît Prieur (CC0) ; All-Purpose Flour (4107895947), Veganbaking.net from USA (CC BY-SA 2.0) ; Red Apple, Abhijit Tembhekar from Mumbai, India (CC BY 2.0) ; Crate of apples - geograph.org.uk - 3185804, andy dolman (CC BY-SA 2.0) ; Sous vide mashed potatoes, sousvideguy (CC BY 2.0) ; Harvested carrot, Hajia Hijjah (CC BY-SA 4.0) ; Baguette-246424, cocoparisienne (CC0). Photos recadrées et compressées.</p></details>
     </div>`;
   dessinerNav("compte");
 }
@@ -497,7 +501,7 @@ function ecranCommercant(id) {
         : `<p class="petit">Aucune commande en attente. Passez une commande depuis l'accueil pour la voir arriver ici.</p>`}
       ${pretes.length ? `<p class="titre-section">Prêtes, en attente de retrait</p>${pretes.map(o => `<div class="bloc"><b>${o.ref.replace("-", " — ")}</b> <span class="statut prete">Prête</span><p class="petit">Le client donne cette référence au comptoir et paie ${euros(o.total)}.</p></div>`).join("")}` : ""}
       <p class="titre-section">Vos offres solidaires</p>
-      ${c.produits.map(p => `<div class="produit ${p.actif ? "" : "inactif"}"><div><div class="nom">${esc(p.nom)}</div><div class="info">${TYPES[p.type]} · ${euros(p.normal)} habituel → <b style="color:var(--violet)">${euros(p.prix)}</b></div></div><button class="interrupteur" role="switch" aria-checked="${p.actif}" aria-label="Proposer ${esc(p.nom)}" data-bascule="${p.id}"></button></div>`).join("")}
+      ${c.produits.map(p => `<div class="produit ${p.actif ? "" : "inactif"}">${vignette(p)}<div><div class="nom">${esc(p.nom)}</div><div class="info">${TYPES[p.type]} · ${euros(p.normal)} habituel → <b style="color:var(--violet)">${euros(p.prix)}</b></div></div><button class="interrupteur" role="switch" aria-checked="${p.actif}" aria-label="Proposer ${esc(p.nom)}" data-bascule="${p.id}"></button></div>`).join("")}
       <details class="bloc" style="margin-top:12px"><summary style="font-weight:700;cursor:pointer">+ Ajouter une offre</summary>
         <label class="champ">Produit<input id="n-nom" placeholder="Ex. : lentilles 500 g"></label>
         <label class="champ">Catégorie<select id="n-type">${Object.entries(TYPES).map(([k, t]) => `<option value="${k}">${t}</option>`).join("")}</select></label>
