@@ -103,13 +103,27 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
 .gains span{display:block;font-size:16px;color:var(--gris);line-height:1.5}
 @media (max-width:900px){.gains{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.gains{grid-template-columns:1fr}}
-.photo-hero{position:relative;margin:0;border-radius:40px;overflow:hidden;aspect-ratio:4/5;background:var(--lilas)}
-.photo-hero img{width:100%;height:100%;object-fit:cover;display:block}
-.photo-hero figcaption{position:absolute;left:14px;right:14px;bottom:14px;display:flex;align-items:center;gap:12px;background:rgba(255,249,240,.94);border-radius:22px;padding:12px 16px;font-family:var(--titre);font-weight:700;font-size:18px;line-height:1.25}
-.photo-hero figcaption svg{width:62px;flex:none;height:auto}
-.bande-photos{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;margin-top:26px}
-.bande-photos img{width:100%;height:220px;object-fit:cover;border-radius:24px;display:block;background:var(--lilas)}
-@media (max-width:900px){.photo-hero{aspect-ratio:4/3;max-width:520px}.bande-photos{grid-template-columns:1fr 1fr}.bande-photos img:first-child{grid-column:1/-1}.bande-photos img{height:170px}}
+.photo-hero{position:relative;justify-self:center;margin:0;transform:rotate(-2.5deg);max-width:400px;width:100%}
+.photo-hero::before{content:"";position:absolute;inset:-14px 14px 14px -14px;background:var(--jaune);border-radius:36px;z-index:-1}
+.photo-hero .cadre{background:#fff;border:2px solid var(--filet);border-radius:32px;padding:12px;box-shadow:0 18px 44px rgba(37,34,59,.18)}
+.photo-hero img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:22px}
+.photo-hero .etiquette{position:absolute;right:-18px;bottom:30px;max-width:240px;background:var(--corail);color:var(--encre);font-family:var(--titre);font-weight:700;font-size:17px;line-height:1.25;border-radius:22px;padding:11px 18px;transform:rotate(3.5deg);box-shadow:0 8px 18px rgba(37,34,59,.2)}
+.logo-def{position:absolute;width:0;height:0;overflow:hidden}
+.bande{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:880px;margin:30px auto 0;padding-bottom:30px}
+.bande figure{margin:0;position:relative}
+.bande figure:nth-child(1){transform:rotate(-2deg)}
+.bande figure:nth-child(2){transform:rotate(1.5deg) translateY(10px)}
+.bande figure:nth-child(3){transform:rotate(-1deg) translateY(-6px)}
+.bande img{display:block;width:100%;height:210px;object-fit:cover;border-radius:20px;border:2px solid var(--filet);box-shadow:0 10px 24px rgba(37,34,59,.14)}
+.bande figcaption{position:absolute;left:12px;bottom:12px;right:12px;width:fit-content;background:rgba(37,34,59,.84);color:#fff;font-size:13.5px;font-weight:700;border-radius:999px;padding:5px 12px}
+.grande-photo{position:relative;margin:30px 0 0;border-radius:28px;overflow:hidden;border:2px solid var(--filet)}
+.grande-photo img{display:block;width:100%;height:300px;object-fit:cover}
+.grande-photo figcaption{position:absolute;left:18px;bottom:18px;max-width:30em;background:var(--creme);color:var(--encre);font-family:var(--titre);font-weight:700;font-size:19px;line-height:1.3;border-radius:18px;padding:12px 18px;box-shadow:0 8px 20px rgba(37,34,59,.18)}
+.photo-etat{margin:22px 0 0;background:#fff;border:2px solid var(--filet);border-radius:28px;padding:10px;transform:rotate(1.5deg);box-shadow:0 14px 30px rgba(37,34,59,.12);max-width:420px}
+.photo-etat img{display:block;width:100%;height:220px;object-fit:cover;border-radius:20px}
+.photo-etat figcaption{font-size:14px;color:var(--gris);text-align:center;padding:8px 4px 2px}
+@media (max-width:900px){.photo-hero{max-width:340px}.photo-hero .etiquette{right:-6px}.bande{grid-template-columns:1fr 1fr}.bande figure:nth-child(3){display:none}.grande-photo img{height:220px}}
+@media (max-width:560px){.bande{grid-template-columns:1fr}.bande figure:nth-child(3){display:block}.grande-photo figcaption{font-size:16px;left:12px;right:12px;bottom:12px}}
 .haut-liens{display:flex;align-items:center;gap:18px}.lien-demo{font-weight:700;font-size:16px}
 @media (max-width:560px){.lien-demo{font-size:15px}}
 </style>
@@ -138,8 +152,9 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
     <p class="apres">Gratuit. Sans engagement.</p>
   </div>
   <figure class="photo-hero">
-    <img src="photos/panier.webp" alt="Un panier de légumes frais prêt à être retiré" width="600" height="750" fetchpriority="high">
-    <figcaption><svg viewBox="0 0 124 100" aria-hidden="true">
+    <div class="cadre"><img src="photos/panier.webp" alt="Un panier de légumes frais prêt à être retiré" width="400" height="500" fetchpriority="high"></div>
+    <figcaption class="etiquette">Aucun justificatif au comptoir</figcaption>
+    <svg class="logo-def" viewBox="0 0 124 100" aria-hidden="true">
       <g id="logo">
         <rect x="67" y="29" width="12" height="24" rx="3.5" fill="#BDEBD9"/>
         <circle cx="101" cy="39" r="8.5" fill="#FFDF67"/>
@@ -153,7 +168,7 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
         <path d="M27 60 16 86" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
         <path d="M27 60 38 87" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
       </g>
-    </svg><span>Au comptoir, une simple référence de commande.</span></figcaption>
+    </svg>
   </figure>
 </div>
 
@@ -166,6 +181,7 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
     <li><h3>Vous choisissez et vous payez</h3><p>Vous prenez les produits que vous voulez, au prix réduit affiché à côté du prix habituel. Personne ne choisit à votre place.</p></li>
     <li><h3>Vous retirez votre commande</h3><p>Vous donnez votre référence au comptoir, c'est tout. Rien à expliquer, rien à montrer.</p></li>
   </ol>
+  <figure class="grande-photo"><img src="photos/charite.webp" alt="Une rue du quartier du Panier, à Marseille" loading="lazy" decoding="async" width="900" height="300"><figcaption>Vous retirez vos courses comme n'importe quel client.</figcaption></figure>
 </section>
 
 <section aria-labelledby="t-offres">
@@ -176,7 +192,7 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
     <article class="role r2"><h3>Des produits à prix coûtant</h3><p>Des produits vendus sans marge : vous payez ce qu'ils ont coûté au commerce.</p></article>
     <article class="role r3"><h3>Des produits essentiels à prix réduit</h3><p>Conserves, produits de base : le commerce baisse son prix pour vous, et l'écart avec le prix habituel est affiché.</p></article>
   </div>
-  <div class="bande-photos"><img src="photos/etal.webp" alt="Étal de fruits et légumes d'un commerce de quartier" loading="lazy" decoding="async" width="760" height="500"><img src="photos/tomates.webp" alt="Panier de tomates fraîches" loading="lazy" decoding="async" width="760" height="500"><img src="photos/noailles.webp" alt="Le marché de Noailles, à Marseille" loading="lazy" decoding="async" width="760" height="500"></div>
+  <div class="bande"><figure><img src="photos/etal.webp" alt="Étal de fruits et légumes d'un commerce de quartier" loading="lazy" decoding="async" width="760" height="500"><figcaption>Des commerces près de chez vous</figcaption></figure><figure><img src="photos/tomates.webp" alt="Panier de tomates fraîches" loading="lazy" decoding="async" width="760" height="500"><figcaption>Des produits frais, moins chers</figcaption></figure><figure><img src="photos/noailles.webp" alt="Le marché de Noailles, à Marseille" loading="lazy" decoding="async" width="760" height="500"><figcaption>Vous choisissez vos produits</figcaption></figure></div>
 </section>
 
 <section aria-labelledby="t-promesses">
@@ -198,6 +214,7 @@ section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulai
       <p class="sur">Où nous en sommes</p>
       <h2 id="t-etat">Ce n'est pas encore ouvert, et nous préférons vous le dire</h2>
       <p class="intro">Nous sommes sept étudiants de Rocket School Marseille. Nous préparons un premier essai avec quelques commerces, et nous voulons d'abord savoir si ce service vous serait vraiment utile.</p>
+      <figure class="photo-etat"><img src="photos/panier.webp" alt="Un panier de légumes frais" loading="lazy" decoding="async" width="420" height="220"><figcaption>Votre avis nous aide à préparer l'essai.</figcaption></figure>
     </div>
     <div class="carte">
       <ul>

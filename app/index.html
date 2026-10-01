@@ -124,6 +124,10 @@ h1,h2,h3{font-family:var(--titre);font-weight:700;line-height:1.15}
 .statut.retiree{background:var(--filet)}
 .ligne-total{display:flex;justify-content:space-between;align-items:baseline;padding:8px 2px}
 .ligne-total b{font-size:20px}
+.ligne-prod{display:flex;align-items:center;gap:12px;padding:7px 2px}
+.ligne-prod .vig{width:44px;height:44px;border-radius:12px;object-fit:cover;flex:none;background:var(--lilas)}
+.ligne-prod .vig.vide{display:grid;place-items:center;color:var(--violet);font-family:var(--titre);font-weight:700}
+.ligne-prod > span:nth-child(2){flex:1}
 .petit{font-size:13.5px;color:var(--gris)}
 .etapes-suivi{display:flex;gap:6px;margin:14px 0 4px}
 .etapes-suivi span{flex:1;height:6px;border-radius:9px;background:var(--filet)}
@@ -231,7 +235,7 @@ const AIDE = {
 };
 
 const DEPART = {
-  version: 4,
+  version: 5,
   compte: { statut: "verifie", prenom: "Démo" },
   commerces: [
     { id: "lou-panie", nom: "Épicerie Lou Panié", quartier: "Noailles", distance: "450 m", resume: "pâtes, conserves, légumes à tarif solidaire", adresse: "Rue fictive des Récollettes, Marseille 1er", horaires: "Lun–Sam, 9h–19h", fond: "f2", photo: "noailles", x: 46, y: 46, depuis: "juin 2026",
@@ -283,6 +287,7 @@ function haut(titre, sous, retour) {
   return `<header class="haut">${retour ? `<a class="rond" href="${retour}" aria-label="Retour">${IC.retour}</a>` : ""}<h1>${titre}${sous ? `<small>${sous}</small>` : ""}</h1></header>`;
 }
 function photo(c, voile) { return c.photo ? ` style="background-image:linear-gradient(${voile}),url(photos/${c.photo}.webp);background-size:cover;background-position:center"` : ""; }
+function lignePanier(l) { return `<div class="ligne-prod">${vignette({ id: l.id || "", nom: l.nom })}<span>${esc(l.nom)} <span class="petit">× ${l.q}</span></span><span>${euros(l.prix * l.q)}</span></div>`; }
 function vignette(p) { return /^[pbv][0-9]$/.test(p.id) ? `<img class="vig" src="photos/produits/${p.id}.webp" alt="" loading="lazy" width="58" height="58">` : `<span class="vig vide" aria-hidden="true">${esc(p.nom[0])}</span>`; }
 function label() { return `<span class="label">${IC.coche}Commerce solidaire</span>`; }
 
@@ -305,7 +310,7 @@ function ecranFil() {
     </section>`);
   cartes.splice(2, 0, `
     <section class="carte-fil" aria-label="Contenu sponsorisé">
-      <div class="fond f5"></div>
+      <div class="fond f5" style="background-image:linear-gradient(rgba(37,34,59,.1) 30%, rgba(37,34,59,.88)),url(photos/vieux-port.webp);background-size:cover;background-position:center"></div>
       <div class="video"><b>${IC.lecture}</b>Vidéo sponsorisée</div>
       <div class="texte"><span class="pub">Sponsorisé</span><h2>Une entreprise marseillaise soutient l'application</h2><p>Exemple de vidéo sponsorisée : c'est la publicité qui finance l'application, sans commission sur vos courses. Elle n'est jamais choisie selon votre situation.</p></div>
     </section>`);
@@ -364,7 +369,7 @@ function ecranCatalogue(id) {
 }
 
 function lignesPanier(c, panier) {
-  return Object.entries(panier).map(([pid, q]) => { const p = c.produits.find(x => x.id === pid); return p ? { nom: p.nom, q, prix: p.prix, normal: p.normal } : null; }).filter(Boolean);
+  return Object.entries(panier).map(([pid, q]) => { const p = c.produits.find(x => x.id === pid); return p ? { id: p.id, nom: p.nom, q, prix: p.prix, normal: p.normal } : null; }).filter(Boolean);
 }
 function ecranPanier(id) {
   const c = commerce(id); if (!c) return ecranFil();
@@ -375,7 +380,7 @@ function ecranPanier(id) {
   vue.innerHTML = `
     ${haut("Mon panier", esc(c.nom), "#/catalogue/" + id)}
     <div class="zone">
-      <div class="bloc">${lignes.map(l => `<div class="ligne-total"><span>${esc(l.nom)} <span class="petit">× ${l.q}</span></span><span>${euros(l.prix * l.q)}</span></div>`).join("")}</div>
+      <div class="bloc">${lignes.map(lignePanier).join("")}</div>
       <div class="ligne-total" style="margin-top:8px"><span>Total à régler au retrait</span><b>${euros(total)}</b></div>
       <p class="petit">Au prix habituel : ${euros(habituel)}. Vous économisez ${euros(habituel - total)}.</p>
       <label class="champ">Créneau de retrait
@@ -407,7 +412,7 @@ function ecranCommande(ref) {
       <div class="etapes-suivi" aria-hidden="true">${[1, 2, 3].map(i => `<span class="${i <= n ? "ok" : ""}"></span>`).join("")}</div>
       <p><span class="statut ${o.statut}">${LIB[o.statut]}</span></p>
       <p class="titre-section">Contenu</p>
-      <div class="bloc">${o.lignes.map(l => `<div class="ligne-total"><span>${esc(l.nom)} <span class="petit">× ${l.q}</span></span><span>${euros(l.prix * l.q)}</span></div>`).join("")}</div>
+      <div class="bloc">${o.lignes.map(lignePanier).join("")}</div>
       <div class="ligne-total" style="margin-top:8px"><span>Total à régler sur place</span><b>${euros(o.total)}</b></div>
       <p class="petit">Paiement directement au commerce, par carte ou en espèces.</p>
       ${o.statut === "envoyee" ? `<p class="petit" style="margin-top:10px">Astuce démo : passez par Compte, puis « Espace commerçant », pour préparer cette commande.</p>` : ""}
@@ -455,7 +460,7 @@ function ecranCompte() {
         <a class="btn clair plein" href="#/inscription">Rejouer l'inscription</a>
         <a class="btn plein" href="#/commercant/lou-panie">Espace commerçant (Lou Panié)</a>
       </div>
-      <p class="petit" style="margin-top:18px">Crédits photo : « Le Marché de Noailles » par Juan Lupión ; « L'étal des saveurs » par marsupilami92 ; « Baguette » par cocoparisienne (domaine public, CC0). Commerces fictifs : les photos illustrent, elles ne représentent pas ces commerces.</p>
+      <p class="petit" style="margin-top:18px">Crédits photo : « Le Marché de Noailles » par Juan Lupión ; « L'étal des saveurs » par marsupilami92 ; « Baguette » par cocoparisienne (domaine public, CC0) ; « Marseille le vieux port » par Jiròni Picas (CC BY-SA 4.0). Commerces fictifs : les photos illustrent, elles ne représentent pas ces commerces.</p>
       <details class="petit" style="margin-top:8px"><summary>Crédits des photos de produits (Wikimedia Commons)</summary><p style="margin-top:6px">Barilla penne 1, Mx. Granger (CC0) ; Tinned tomatoes, auteur inconnu (CC0) ; Thai jasmine rice uncooked periodic, Seb35 (CC BY-SA 3.0) ; Sunflower oil bottles in Dnipro, Alex Blokha (CC BY-SA 4.0) ; Fruits and Vegetables in Boquete, Panama, FranHogan (CC BY-SA 4.0) ; Yogurt vainilla soja, Urci dream (CC BY-SA 4.0) ; Fresh made bread 05, FranHogan (CC BY-SA 4.0) ; Boulangerie Bardoulet (Contrevoz) - croissants et pains au chocolat, Benoît Prieur (CC0) ; All-Purpose Flour (4107895947), Veganbaking.net from USA (CC BY-SA 2.0) ; Red Apple, Abhijit Tembhekar from Mumbai, India (CC BY 2.0) ; Crate of apples - geograph.org.uk - 3185804, andy dolman (CC BY-SA 2.0) ; Sous vide mashed potatoes, sousvideguy (CC BY 2.0) ; Harvested carrot, Hajia Hijjah (CC BY-SA 4.0) ; Baguette-246424, cocoparisienne (CC0). Photos recadrées et compressées.</p></details>
     </div>`;
   dessinerNav("compte");
