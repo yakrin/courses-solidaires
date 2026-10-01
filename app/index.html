@@ -32,9 +32,11 @@ h1,h2,h3{font-family:var(--titre);font-weight:700;line-height:1.15}
 .cote .sur{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--violet)}
 .cote ol{margin:0 0 14px 20px;color:var(--gris)}
 .cote a{color:var(--violet);font-weight:700}
-@media (min-width:900px){.cote{display:block}.tel{height:min(840px,90vh);border-radius:38px;box-shadow:0 0 0 10px var(--encre),0 24px 60px rgba(37,34,59,.3)}}
+@media (min-width:900px){.cote{display:block}}
 .tel{position:relative;width:100%;max-width:420px;height:100%;background:var(--creme);overflow:hidden;display:flex;flex-direction:column}
+@media (min-width:500px){.tel{height:min(760px,calc(100vh - 60px));width:auto;max-width:none;aspect-ratio:9/19;border-radius:38px;box-shadow:0 0 0 10px var(--encre),0 24px 60px rgba(37,34,59,.3)}}
 .demo{background:var(--encre);color:#fff;font-size:12.5px;text-align:center;padding:6px 10px}
+.vue,.fil{scrollbar-width:none}.vue::-webkit-scrollbar,.fil::-webkit-scrollbar{display:none}
 .demo button{color:var(--jaune);font-weight:700;text-decoration:underline;font-size:12.5px}
 .vue{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;-webkit-overflow-scrolling:touch}
 .vue.sans-defil{overflow:hidden}
@@ -196,7 +198,7 @@ label.champ{display:block;font-size:14px;font-weight:700;margin-top:14px}
 </aside>
 
 <div class="tel">
-  <p class="demo">Démo de l'essai · commerces et prix fictifs · <button type="button" id="reinit">Remettre à zéro</button></p>
+  <p class="demo">Démo · commerces et prix fictifs · <button type="button" id="reinit">Réinitialiser</button></p>
   <main class="vue" id="vue" tabindex="-1"></main>
   <nav class="nav" id="nav" aria-label="Navigation principale"></nav>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
