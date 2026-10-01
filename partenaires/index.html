@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les courses solidaires · commerces, entreprises et associations</title>
+<meta name="description" content="Commerces, entreprises et associations de Marseille : proposez quelques produits à prix réduit, écoulez vos invendus et faites reconnaître votre engagement solidaire. Sans commission.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%236541C1'/%3E%3Cpath d='M50 74C24 57 24 34 38 34c8 0 12 8 12 8s4-8 12-8c14 0 14 23-12 40z' fill='%23FF876D'/%3E%3C/svg%3E">
+<link rel="preload" href="../polices/charis-700.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Charis SIL";font-weight:700;font-display:swap;src:url(../polices/charis-700.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:400;font-display:swap;src:url(../polices/atkinson-400.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:700;font-display:swap;src:url(../polices/atkinson-700.woff2) format("woff2")}
+:root{--encre:#25223b;--violet:#6541c1;--violet-fonce:#4f2fa3;--creme:#fff9f0;--lilas:#e6ddf8;--corail:#ff876d;--jaune:#ffdf67;--menthe:#bdebd9;--turquoise:#167a6a;--gris:#5e5871;--filet:#eadfd3;--titre:"Charis SIL",Charter,Georgia,serif;--texte:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--creme);color:var(--encre);font-family:var(--texte);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--titre);font-weight:700;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0 0 14px}
+a{color:var(--violet);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.page{max-width:1120px;margin:0 auto;padding:0 22px}
+.saut{position:absolute;left:-999px}.saut:focus{left:12px;top:10px;background:var(--violet);color:#fff;padding:8px 14px;border-radius:999px}
+header.haut{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+.marque{display:flex;align-items:center;gap:10px;color:var(--encre);text-decoration:none}
+.marque svg{width:54px;height:auto}
+.marque span{font-family:var(--titre);font-weight:700;line-height:.95;font-size:20px;display:flex;flex-direction:column}
+.marque small{font-size:14px;font-weight:700}
+.bouton{display:inline-block;font:inherit;font-weight:700;background:var(--violet);color:#fff;text-decoration:none;border:0;border-radius:999px;padding:14px 26px;cursor:pointer}
+.bouton:hover{background:var(--violet-fonce)}
+.bouton.petit{padding:9px 18px;font-size:16px}
+.sur{font-size:13.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin:0 0 12px}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;padding:34px 0 56px}
+.hero h1{font-size:clamp(38px,5.6vw,68px)}
+.hero p.chapo{font-size:20px;color:var(--gris);margin:20px 0 26px;max-width:40em}
+.hero .apres{font-size:15.5px;color:var(--gris);margin:12px 0 0}
+.dessin{background:var(--lilas);border-radius:40px;padding:34px 26px 26px;text-align:center}
+.dessin svg{width:100%;max-width:300px;height:auto}
+.dessin p{font-family:var(--titre);font-weight:700;font-size:21px;line-height:1.25;margin:14px 0 0}
+section{padding:54px 0}
+h2{font-size:clamp(28px,3.8vw,42px);margin-bottom:10px}
+.intro{color:var(--gris);font-size:19px;max-width:44em}
+.chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.chiffres div{background:#fff;border:2px solid var(--filet);border-radius:24px;padding:22px 24px}
+.chiffres b{font-family:var(--titre);font-size:clamp(38px,5vw,56px);line-height:1;display:block;color:var(--violet)}
+.chiffres span{display:block;margin-top:8px;font-size:17px;line-height:1.4}
+.chiffres small{display:block;margin-top:8px;font-size:13.5px;color:var(--gris)}
+.etapes{list-style:none;counter-reset:e;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.etapes li{counter-increment:e;background:#fff;border:2px solid var(--filet);border-radius:24px;padding:22px}
+.etapes li::before{content:"0" counter(e);font-family:var(--titre);font-weight:700;font-size:34px;line-height:1;color:var(--violet);display:block;margin-bottom:10px}
+.etapes h3{font-size:20px;margin-bottom:8px}
+.etapes p{font-size:16px;margin:0;color:var(--gris)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.role{border-radius:28px;padding:26px}
+.role h3{font-size:25px;margin-bottom:10px}
+.role p{font-size:17px}
+.role dl{margin:16px 0 0;display:grid;gap:10px}
+.role dt{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.role dd{margin:2px 0 0;font-size:16.5px;line-height:1.45}
+.r1{background:var(--menthe)}.r2{background:var(--lilas)}.r3{background:var(--jaune)}
+.promesses{background:var(--encre);color:#fff;border-radius:40px;padding:44px 40px}
+.promesses h2{color:#fff}
+.promesses ul{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.promesses li b{display:block;font-family:var(--titre);font-size:21px;line-height:1.2;margin-bottom:8px;color:var(--jaune)}
+.promesses li span{font-size:16px;line-height:1.5;color:#e9e6f2}
+.etat{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.etat .carte{background:#fff;border:2px solid var(--filet);border-radius:28px;padding:26px}
+.etat ul{margin:0;padding-left:20px}
+.etat li{margin-bottom:8px}
+.formulaire{background:#fff;border:2px solid var(--violet);border-radius:36px;padding:38px;display:grid;grid-template-columns:.85fr 1.15fr;gap:40px}
+.formulaire h2{font-size:clamp(28px,3.4vw,38px)}
+form{display:grid;gap:14px}
+label{display:block;font-weight:700;font-size:16px}
+label>input,label>select,label>textarea{display:block;margin-top:6px}
+label small{font-weight:400;color:var(--gris)}
+input,select,textarea{font:inherit;color:var(--encre);background:var(--creme);border:2px solid var(--filet);border-radius:14px;padding:12px 14px;width:100%}
+textarea{resize:vertical;min-height:96px}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label.accord{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;font-weight:400;font-size:16px;line-height:1.45;background:var(--creme);border-radius:14px;padding:14px}
+.accord input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--violet)}
+.finalite{font-size:14.5px;color:var(--gris);margin:0}
+.piege{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+footer{border-top:2px solid var(--filet);padding:30px 0 50px;font-size:15.5px;color:var(--gris)}
+footer details{border-bottom:1px solid var(--filet);padding:12px 0}
+footer summary{cursor:pointer;font-weight:700;color:var(--encre)}
+footer details p{margin:10px 0 0;max-width:60em}
+footer .fin{margin-top:18px}
+@media (max-width:900px){
+.hero,.etat,.formulaire{grid-template-columns:1fr;gap:26px}
+.etapes,.promesses ul{grid-template-columns:1fr 1fr}
+.chiffres,.roles{grid-template-columns:1fr}
+.dessin{padding:22px}.dessin svg{max-width:200px}
+section{padding:40px 0}.promesses{padding:32px 24px;border-radius:28px}.formulaire{padding:24px;border-radius:26px}
+}
+@media (max-width:560px){body{font-size:17px}.etapes,.promesses ul,.deux{grid-template-columns:1fr}header.haut .bouton{display:none}}
+.aiguillage{background:var(--encre);color:#fff;font-size:15.5px;text-align:center;padding:9px 16px}
+.aiguillage a{color:var(--jaune);font-weight:700}
+.gains{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.gains div{background:#fff;border:2px solid var(--filet);border-radius:24px;padding:22px}
+.gains b{display:block;font-family:var(--titre);font-size:21px;line-height:1.2;margin-bottom:8px}
+.gains span{display:block;font-size:16px;color:var(--gris);line-height:1.5}
+@media (max-width:900px){.gains{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.gains{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+<p class="aiguillage">Vous cherchez à faire vos courses moins cher ? <a href="../courses/">Une page est faite pour vous</a></p>
+<div class="page">
+
+<header class="haut">
+  <a class="marque" href="#contenu" aria-label="Les courses solidaires">
+    <svg viewBox="0 0 124 100" aria-hidden="true"><use href="#logo"/></svg>
+    <span><small>les courses</small>solidaires</span>
+  </a>
+  <a class="bouton petit" href="#participer">Devenir partenaire</a>
+</header>
+
+<main id="contenu">
+<div class="hero">
+  <div>
+    <p class="sur">Commerces, entreprises, associations · Marseille · automne 2026</p>
+    <h1>Un engagement solidaire que vos clients voient, et qui vous coûte peu.</h1>
+    <p class="chapo">Courses solidaires met en relation des commerces de quartier et des personnes qui travaillent mais dont le budget ne tient plus jusqu'à la fin du mois. Vous proposez quelques produits à prix réduit, vous écoulez vos invendus, et votre engagement est reconnu par une attestation datée. Nous cherchons les premiers partenaires d'un essai à Marseille.</p>
+    <a class="bouton" href="#participer">Devenir partenaire de l'essai</a>
+    <p class="apres">Nous vous écrivons pour en parler. Sans engagement.</p>
+  </div>
+  <div class="dessin">
+    <svg viewBox="0 0 124 100" role="img" aria-label="Une personne pousse un chariot de courses où l'on voit un cœur">
+      <g id="logo">
+        <rect x="67" y="29" width="12" height="24" rx="3.5" fill="#BDEBD9"/>
+        <circle cx="101" cy="39" r="8.5" fill="#FFDF67"/>
+        <path d="M88 48C75.5 40 75.5 29 82.5 29 86 29 88 32.8 88 32.8S90 29 93.5 29C100.5 29 100.5 40 88 48Z" fill="#FF876D"/>
+        <path d="M62 51H116L107.5 72H70Z" fill="#FFF9F0" stroke="#25223B" stroke-width="5.5" stroke-linejoin="round"/>
+        <path d="M49 45H59L70.5 80H108" fill="none" stroke="#25223B" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="76" cy="90" r="6.5" fill="#25223B"/><circle cx="103" cy="90" r="6.5" fill="#25223B"/>
+        <circle cx="33" cy="17" r="10" fill="#6541C1"/>
+        <path d="M34 35 27 60" fill="none" stroke="#6541C1" stroke-width="14" stroke-linecap="round"/>
+        <path d="M33 41 52 45.5" fill="none" stroke="#6541C1" stroke-width="7.5" stroke-linecap="round"/>
+        <path d="M27 60 16 86" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
+        <path d="M27 60 38 87" fill="none" stroke="#6541C1" stroke-width="9.5" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <p>Aucune commission sur vos ventes.<br>Vous choisissez les produits.</p>
+  </div>
+</div>
+
+<section aria-labelledby="t-gains">
+  <p class="sur">Ce que vous y gagnez</p>
+  <h2 id="t-gains">Une démarche RSE concrète, mesurable, ancrée dans votre quartier</h2>
+  <div class="gains">
+    <div><b>Moins de gaspillage</b><span>Vos invendus encore consommables trouvent preneur à prix réduit au lieu d'être jetés.</span></div>
+    <div><b>De nouveaux clients</b><span>Des habitants du quartier découvrent votre commerce par la carte et le fil de l'application.</span></div>
+    <div><b>Un engagement attesté</b><span>Une attestation « Commerce solidaire » datée, qui précise les engagements que vous tenez.</span></div>
+    <div><b>Aucune commission</b><span>Nous ne prélevons rien sur vos ventes. Le client vous paie le prix que vous avez fixé.</span></div>
+  </div>
+</section>
+
+<section aria-labelledby="t-marche">
+  <p class="sur">Le fonctionnement pour un commerce</p>
+  <h2 id="t-marche">Quatre étapes, et c'est vous qui fixez le périmètre</h2>
+  <ol class="etapes">
+    <li><h3>Votre commerce est vérifié</h3><p>Vous créez votre compte, nous vérifions les informations de votre commerce, puis vous configurez votre fiche : présentation, horaires, retrait, vidéo si vous le souhaitez.</p></li>
+    <li><h3>Vous choisissez vos offres</h3><p>Des invendus à prix réduit, des produits à prix coûtant, des produits essentiels à tarif solidaire. Votre engagement porte sur les produits que vous sélectionnez, pas sur tout le magasin.</p></li>
+    <li><h3>Vous préparez la commande</h3><p>La commande arrive avec les produits, le créneau et une référence. Vous ne voyez que ce qu'il faut pour la préparer.</p></li>
+    <li><h3>Le client retire et paie</h3><p>Il donne sa référence au comptoir, comme n'importe quel client. Il n'a aucun justificatif à vous montrer.</p></li>
+  </ol>
+</section>
+
+<section aria-labelledby="t-role">
+  <p class="sur">Votre place dans l'essai</p>
+  <h2 id="t-role">Trois façons d'y prendre part</h2>
+  <div class="roles">
+    <article class="role r1">
+      <h3>Vous tenez un commerce alimentaire</h3>
+      <p>Épicerie, supérette, boulangerie, primeur : vous proposez une petite sélection à prix réduit et vous préparez les commandes.</p>
+      <dl><div><dt>Pour l'essai</dt><dd>Une sélection de quelques produits pendant deux semaines.</dd></div><div><dt>Ce que nous voulons vérifier avec vous</dt><dd>Les produits, les prix et le temps de préparation qui restent tenables pour vous.</dd></div></dl>
+    </article>
+    <article class="role r2">
+      <h3>Vous êtes une association ou un CCAS</h3>
+      <p>Vous voyez passer des personnes en emploi en difficulté, et vous savez pourquoi d'autres ne viennent jamais.</p>
+      <dl><div><dt>Pour l'essai</dt><dd>Parler du service à quelques personnes que vous accompagnez.</dd></div><div><dt>Ce que nous voulons vérifier avec vous</dt><dd>Où notre idée complète l'existant, et où elle ferait doublon.</dd></div></dl>
+    </article>
+    <article class="role r3">
+      <h3>Vous êtes une entreprise engagée</h3>
+      <p>Vous cherchez une action solidaire locale pour votre démarche RSE : soutenir le lancement, ou faire connaître le service.</p>
+      <dl><div><dt>Pour l'essai</dt><dd>Échanger sur la forme d'un soutien.</dd></div><div><dt>Ce que nous voulons vérifier avec vous</dt><dd>Ce qu'il faudrait prouver pendant l'essai pour que votre soutien soit possible.</dd></div></dl>
+    </article>
+  </div>
+</section>
+
+<section aria-labelledby="t-promesses">
+  <div class="promesses">
+    <p class="sur" style="color:#BDEBD9">Nos règles</p>
+    <h2 id="t-promesses">Ce à quoi nous nous engageons</h2>
+    <ul>
+      <li><b>Des mots justes</b><span>Une attestation d'engagement interne, jamais présentée comme une certification indépendante.</span></li>
+      <li><b>Aucune situation exposée</b><span>Vous ne recevez ni nom ni justificatif. La situation des clients ne sert jamais à cibler une publicité.</span></li>
+      <li><b>Des prix comparables</b><span>Chaque tarif solidaire s'affiche avec un prix de référence, pour que l'avantage soit réel et vérifiable.</span></li>
+      <li><b>Le moins de données possible</b><span>Hébergées en France, jamais transmises, supprimées sur demande.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section aria-labelledby="t-etat">
+  <div class="etat">
+    <div>
+      <p class="sur">Où nous en sommes</p>
+      <h2 id="t-etat">Un projet étudiant, qui dit ce qu'il ne sait pas encore</h2>
+      <p class="intro">Nous sommes sept étudiants de Rocket School Marseille, réunis par le Changemaker Project 2026. Le service n'est pas lancé : nous vérifions d'abord que le besoin existe et que des commerces peuvent proposer des prix qui font une vraie différence.</p>
+    </div>
+    <div class="carte">
+      <ul>
+        <li>Aucun commerce n'a encore signé.</li>
+        <li>L'application n'existe pas encore : l'essai se fera sur une version simple.</li>
+        <li>Les critères de l'attestation et le moment du paiement restent à fixer avec vous.</li>
+        <li>Nous menons des entretiens avec des commerces, des associations et des personnes concernées.</li>
+      </ul>
+      <p style="margin:12px 0 0"><strong>Votre avis nous est utile, même critique.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section id="participer" aria-labelledby="t-form">
+  <div class="formulaire">
+    <div>
+      <p class="sur">Une seule étape</p>
+      <h2 id="t-form">Devenir partenaire de l'essai</h2>
+      <p>Laissez-nous de quoi vous joindre. Un membre de l'équipe vous écrit pour fixer un échange de vingt minutes.</p>
+      <p class="finalite">Vos informations servent uniquement à vous recontacter au sujet de l'essai. Elles sont hébergées en France, ne sont transmises à personne et sont supprimées au plus tard le 31 décembre 2026, ou avant sur simple demande.</p>
+    </div>
+    <form method="post" action="https://vps-perso-fr.tail69c11f.ts.net:10000/api/demandes">
+      <label for="profil">Vous êtes
+        <select id="profil" name="profil" required>
+          <option value="">Choisir</option>
+          <option value="commerce">Un commerce alimentaire</option>
+          <option value="organisme">Une association ou un CCAS</option>
+          <option value="entreprise">Une entreprise</option>
+          <option value="autre">Autre</option>
+        </select>
+      </label>
+      <div class="deux">
+        <label for="nom">Votre prénom et votre nom<input id="nom" name="nom" type="text" autocomplete="name" required minlength="2" maxlength="120"></label>
+        <label for="organisation">Votre structure <small>facultatif</small><input id="organisation" name="organisation" type="text" autocomplete="organization" maxlength="160"></label>
+      </div>
+      <label for="email">Votre adresse e-mail<input id="email" name="email" type="email" autocomplete="email" required maxlength="160"></label>
+      <label for="message">Ce que vous voulez nous dire <small>facultatif</small><textarea id="message" name="message" maxlength="1500"></textarea></label>
+      <div class="piege" aria-hidden="true"><label for="site">Ne pas remplir<input id="site" name="site" type="text" tabindex="-1" autocomplete="off"></label></div>
+      <label class="accord" for="consentement"><input id="consentement" name="consentement" type="checkbox" value="oui" required><span>J'accepte que l'équipe des courses solidaires utilise ces informations pour me recontacter au sujet de l'essai.</span></label>
+      <button class="bouton" type="submit">Devenir partenaire de l'essai</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <details>
+    <summary>Mentions légales</summary>
+    <p>Page éditée par le groupe 4 du Changemaker Project 2026, Rocket School Marseille. Projet étudiant, sans structure juridique à ce jour. Responsable de la publication : le chef de projet du groupe. Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.</p>
+  </details>
+  <details>
+    <summary>Vos données</summary>
+    <p>Nous recueillons votre nom, votre structure si vous l'indiquez, votre adresse e-mail et votre message, avec votre accord, dans un seul but : vous recontacter au sujet de l'essai. Seuls les sept membres de l'équipe y ont accès. Les données sont conservées en France et supprimées au plus tard le 31 décembre 2026.</p>
+    <p>Vous pouvez à tout moment consulter, corriger ou faire supprimer vos informations : écrivez-nous par le formulaire ci-dessus en indiquant « mes données » dans le message, nous le faisons sous sept jours. Vous pouvez aussi saisir la CNIL.</p>
+    <p>Cette page ne dépose aucun cookie, n'utilise aucun traceur et ne mesure pas son audience.</p>
+  </details>
+  <details>
+    <summary>Une page sobre, par choix</summary>
+    <p>Aucun script, aucune photo, aucune vidéo, aucun service tiers : le dessin est tracé en quelques lignes et les polices sont hébergées avec la page. Elle se charge en quelques dizaines de kilo-octets.</p>
+  </details>
+  <p class="fin">Les courses solidaires · Groupe 4 Marseille · Changemaker Project 2026, Rocket School × Change Conseil.</p>
+</footer>
+
+</div>
+</body>
+</html>
